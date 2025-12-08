@@ -1,6 +1,11 @@
 from fastapi import *
 from fastapi.responses import FileResponse
 app=FastAPI()
+@app.get('/api/mrts')
+def get_mrts():
+	pass
+
+
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)

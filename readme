@@ -1,0 +1,26 @@
+create database tourist_attraction;
+
+create table attraction_info(
+    id int auto_increment primary key,
+    rate_data int not null,
+    direction_data varchar(255) not null,
+    name_data varchar(100) not null,
+    data_data date not null,
+    longitude_data double not null,
+    REF_WP_data int not null,
+    avBegin_data date not null,
+    langinfo_data int not null,
+    MRT_data varchar(50) null,
+    SERIAL_NO_data int not null,
+    RowNumber_data int not null,
+    cate_data varchar(50) not null,
+    MEMO_TIME_data varchar(100) not null,
+    POI_data varchar(20) not null,
+    file_data varchar(255) not null,
+    idpt_data varchar(20) not null,
+    latitude_data double not null,
+    description_data text not null,
+    _id_data int not null,
+    avEnd_data date not null,
+    address_data varchar(100) not null
+);

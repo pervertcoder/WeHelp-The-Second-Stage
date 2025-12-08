@@ -1,0 +1,56 @@
+import json
+from dotenv import load_dotenv
+import os
+import mysql.connector
+
+
+file_path = r'data\taipei-attractions.json'
+with open(file_path, 'r', encoding='utf-8') as file:
+	data = json.load(file)
+
+data_usage = data['result']['results']
+print(data_usage[0]['address'])
+print('==========')
+data_usage[20]['CAT'] = '其他'
+
+lis_mrts = []
+for i in data_usage:
+	mrts = i['MRT']
+	if mrts == None:
+		mrts = '無'
+	lis_mrts.append(mrts)
+
+lis = []
+for i in data_usage:
+	name = i['address']
+	lis.append(name)
+print(len(lis), lis)
+
+keys = data_usage[0].keys()
+print(keys)
+
+def split_maker(string):
+	target_lis = string.split('https')
+	target_lis[0] = ':jpg'
+	new_target_lis = []
+	for i in target_lis:
+		x = i.replace(':', 'https:')
+		new_target_lis.append(x)
+	length_new = len(new_target_lis)
+	for m in range(length_new):
+		if new_target_lis[m][-3:].lower() == 'jpg' or new_target_lis[m][-3:].lower() == 'png':
+			new_target_lis[m] == new_target_lis[m]
+		else:
+			new_target_lis[m] = '無'
+	return new_target_lis
+	
+
+load_dotenv()
+def get_db_connect():
+	mydb = mysql.connector.connect(
+		host = os.getenv('DB_HOST'),
+		user = os.getenv('DB_USER'),
+        password = os.getenv('DB_PASSWORD')
+    )
+	return mydb
+
