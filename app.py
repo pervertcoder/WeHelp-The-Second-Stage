@@ -1,11 +1,134 @@
 from fastapi import *
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
+from dotenv import load_dotenv
+import os
+import mysql.connector
+from pydantic import BaseModel
+from typing import List
+
+load_dotenv()
+
+def split_maker(string):
+	target_lis = string.split('https')
+	target_lis[0] = ':jpg'
+	new_target_lis = []
+	for i in target_lis:
+		x = i.replace(':', 'https:')
+		new_target_lis.append(x)
+	length_new = len(new_target_lis)
+	for m in range(length_new):
+		if new_target_lis[m][-3:].lower() == 'jpg' or new_target_lis[m][-3:].lower() == 'png':
+			new_target_lis[m] == new_target_lis[m]
+		else:
+			new_target_lis[m] = '無'
+	return new_target_lis
+
+def get_db_connect():
+	mydb = mysql.connector.connect(
+		host = os.getenv('DB_HOST'),
+		user = os.getenv('DB_USER'),
+        password = os.getenv('DB_PASSWORD')
+    )
+	return mydb
+
+def get_mrt_data():
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use tourist_attraction')
+	sql = 'select MRT_data, count(*) as 次數 from attraction_info group by MRT_data order by 次數 desc'
+	mycursor.execute(sql)
+	result = [x[0] for x in mycursor]
+	for i in range(len(result)):
+		if result[i] == None:
+			result[i] = '無'
+	return result
+
+def get_cate_data():
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use tourist_attraction')
+	sql = 'select cate_data from attraction_info group by cate_data'
+	mycursor.execute(sql)
+	result = [x[0] for x in mycursor]
+	return result
+
+def get_attraction_data(data_id):
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use tourist_attraction')
+	sql = 'select * from attraction_info where id = %s'
+	mycursor.execute(sql, (data_id,))
+	result = [x for x in mycursor]
+	return result[0]
+
+print(get_attraction_data(1)[2])
+# print(split_maker(get_attraction_data(1)[15])[1])
+
+class DataResponse(BaseModel):
+	data: List[str]
+
+class ErrorResponse(BaseModel):
+    error: bool
+    message: str
+
+class AttractionResponse(BaseModel):
+	data: dict
+
+
 app=FastAPI()
-@app.get('/api/mrts')
+@app.get('/api/mrts', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 def get_mrts():
-	pass
+	try:
+		mrt_data = get_mrt_data()
+		return {
+			'data' : mrt_data
+		}
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : str(e)
+		})
 
-
+@app.get('/api/categories', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
+def get_cate():
+	try:
+		cate_data = get_cate_data()
+		return {
+			'data' : cate_data
+		}
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : str(e)
+		})
+# 範例{400: {'model' : ErrorResponse, 'description' : '景點編號不正確'}}
+@app.get('/api/attraction/{attraction_id}', response_model=AttractionResponse, responses={200 : {'description' : '景點資料'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}, 400 : {'model' : ErrorResponse, 'description' : '景點編號不正確'}})
+def get_attraction(attraction_id:int):
+	if attraction_id > 58:
+		return JSONResponse(status_code=400, content={'error' : True, 'message' : '查無資料'})
+	try:
+		att_data = get_attraction_data(attraction_id)
+		return {
+			'data' : {
+				'id' : att_data[0],
+				'name' : att_data[3],
+				'category' : att_data[12],
+				'description' : att_data[18],
+				'adress' : att_data[-1],
+				'transport' : att_data[2],
+				'mrt' : att_data[9],
+				'lat' : att_data[-5],
+				'lng' : att_data[5],
+				'image' : [split_maker(att_data[15])[1]]
+			}
+		}
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : str(e)
+		})
+	
+	
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
