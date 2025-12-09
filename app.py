@@ -108,6 +108,11 @@ def get_attraction(attraction_id:int):
 		return JSONResponse(status_code=400, content={'error' : True, 'message' : '查無資料'})
 	try:
 		att_data = get_attraction_data(attraction_id)
+		file_data = split_maker(att_data[15])
+		file_data.pop(0)
+		for i in file_data:
+			if i == '無':
+				file_data.remove('無')
 		return {
 			'data' : {
 				'id' : att_data[0],
@@ -119,7 +124,7 @@ def get_attraction(attraction_id:int):
 				'mrt' : att_data[9],
 				'lat' : att_data[-5],
 				'lng' : att_data[5],
-				'image' : [split_maker(att_data[15])[1]]
+				'image' : file_data
 			}
 		}
 	except Exception as e:
