@@ -61,7 +61,7 @@ def get_attraction_data(data_id):
 	result = [x for x in mycursor]
 	return result[0]
 
-print(get_attraction_data(1)[2])
+# print(get_attraction_data(1)[2])
 # print(split_maker(get_attraction_data(1)[15])[1])
 
 class DataResponse(BaseModel):

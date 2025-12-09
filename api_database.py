@@ -12,11 +12,7 @@ data_usage = data['result']['results']
 data_usage[20]['CAT'] = '其他'
 
 
-for i in data_usage:
-	mrts = i['MRT']
-	if mrts == None:
-		mrts = '無'
-
+data_usage[26]['MRT'] = '無'
 
 
 def split_maker(string):
