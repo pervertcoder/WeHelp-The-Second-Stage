@@ -15,7 +15,7 @@ data_usage[20]['CAT'] = '其他'
 data_usage[26]['MRT'] = '無'
 
 
-def split_maker(string):
+def split_maker(string:str) -> list:
 	target_lis = string.split('https')
 	target_lis[0] = ':jpg'
 	new_target_lis = []
