@@ -97,11 +97,44 @@ def page_date(page:int, category:str | None = None, keyword:str | None = None) -
 	sql += ' limit %s, 8'
 	param.append(offset)
 	
-
 	mycursor.execute(sql, tuple(param))
 	result = mycursor.fetchall()
 	return result
 # print(page_date(1))
+
+def diff_page(page:int, category:str | None = None, keyword:str | None = None):
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use tourist_attraction')
+
+	sql = 'select count(*) as total_count, ceil(count(*) / 8) as total_page from attraction_info'
+	mrt = get_mrt_data()
+	name = get_data_name()
+	sql_filter = []
+	param = []
+	if category:
+		sql_filter.append('cate_data = %s')
+		param.append(category)
+	if keyword:
+		if keyword in mrt:
+			sql_filter.append('MRT_data = %s')
+			param.append(keyword)
+		for i in name:
+			if keyword in i:
+				sql_filter.append('name_data like %s')
+				keyword_name = f'%{keyword}%'
+				param.append(keyword_name)
+				break
+	if sql_filter:
+		sql += ' where' + ' ' + ' and '.join(sql_filter)
+	
+	mycursor.execute(sql, tuple(param))
+	result = [x for x in mycursor]
+	final_result = []
+	final_result.append(result[0][0])
+	final_result.append(int(result[0][1]))
+	return final_result
+# print(diff_page(1))
 
 
 class DataResponse(BaseModel):
@@ -115,6 +148,7 @@ class AttractionResponse(BaseModel):
 	data: dict
 
 class AttractionDataResponse(BaseModel):
+	nextPage: int | None
 	data: list
 
 
@@ -176,9 +210,15 @@ def get_attraction(attraction_id:int):
 	
 
 @app.get('/api/attractions', response_model=AttractionDataResponse, responses={500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
-def get_specific_data(page:int, category:str | None = None, keyword:str | None = None, ):
+def get_specific_data(page:int, category:str | None = None, keyword:str | None = None):
 	try:
 		result = page_date(page, category, keyword)
+		total_page = diff_page(page, category, keyword)[1]
+		used_page = None
+		if page == total_page - 1:
+			final_page = used_page
+		else:
+			final_page = page + 1
 		data_list = []
 		for rows in result:
 			new_file = split_maker(rows[15])
@@ -199,6 +239,7 @@ def get_specific_data(page:int, category:str | None = None, keyword:str | None =
 			)
 		
 		return {
+			'nextPage' : final_page,
 			'data' : data_list
 		}
 	
