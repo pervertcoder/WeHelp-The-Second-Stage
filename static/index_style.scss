@@ -1,0 +1,80 @@
+.topbar {
+  margin: 20px 10px 20px 10px;
+  width: 100%;
+}
+
+.topbar__container--whole {
+  display: flex;
+}
+
+.topbar__left--title {
+  margin-left: 10px;
+  width: 70%;
+}
+
+.homepage__title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #448899;
+}
+
+.topbar__container--right {
+  width: 30%;
+  margin-right: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.topbar__right--booking {
+  margin-right: 15px;
+}
+
+.topbar__title--font {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.topbar__right--login {
+  margin-left: 15px;
+}
+
+.main__banner--image101 {
+  width: 100%;
+  margin: 10px 0 10px 0;
+  object-fit: fill;
+  position: relative;
+}
+
+.image101 {
+  width: 100%;
+}
+
+.banner__inside {
+  width: 100%;
+  margin-left: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.banner__inside--header {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.banner__inside--para {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+.filter {
+  margin-top: 20px;
+}

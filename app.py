@@ -1,5 +1,6 @@
 from fastapi import *
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
 import mysql.connector
@@ -251,7 +252,7 @@ def get_specific_data(page:int, category:str | None = None, keyword:str | None =
 		
 	
 	
-
+app.mount('/static', StaticFiles(directory='static'))
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
 async def index(request: Request):
