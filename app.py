@@ -101,9 +101,8 @@ def page_date(page:int, category:str | None = None, keyword:str | None = None) -
 	mycursor.execute(sql, tuple(param))
 	result = mycursor.fetchall()
 	return result
-# print(page_date(1))
 
-def diff_page(page:int, category:str | None = None, keyword:str | None = None):
+def diff_page(page:int, category:str | None = None, keyword:str | None = None) -> list:
 	conn = get_db_connect()
 	mycursor = conn.cursor()
 	mycursor.execute('use tourist_attraction')
@@ -135,7 +134,6 @@ def diff_page(page:int, category:str | None = None, keyword:str | None = None):
 	final_result.append(result[0][0])
 	final_result.append(int(result[0][1]))
 	return final_result
-# print(diff_page(1))
 
 
 class DataResponse(BaseModel):
@@ -155,7 +153,7 @@ class AttractionDataResponse(BaseModel):
 
 app=FastAPI()
 @app.get('/api/mrts', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
-def get_mrts():
+def get_mrts() -> DataResponse | ErrorResponse:
 	try:
 		mrt_data = get_mrt_data()
 		return {
@@ -168,7 +166,7 @@ def get_mrts():
 		})
 
 @app.get('/api/categories', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
-def get_cate():
+def get_cate() -> DataResponse | ErrorResponse:
 	try:
 		cate_data = get_cate_data()
 		return {
@@ -181,7 +179,7 @@ def get_cate():
 		})
 # 範例{400: {'model' : ErrorResponse, 'description' : '景點編號不正確'}}
 @app.get('/api/attraction/{attraction_id}', response_model=AttractionResponse, responses={200 : {'description' : '景點資料'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}, 400 : {'model' : ErrorResponse, 'description' : '景點編號不正確'}})
-def get_attraction(attraction_id:int):
+def get_attraction(attraction_id:int) -> AttractionResponse | ErrorResponse:
 	if attraction_id > 58:
 		return JSONResponse(status_code=400, content={'error' : True, 'message' : '查無資料'})
 	try:
@@ -211,7 +209,7 @@ def get_attraction(attraction_id:int):
 	
 
 @app.get('/api/attractions', response_model=AttractionDataResponse, responses={500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
-def get_specific_data(page:int, category:str | None = None, keyword:str | None = None):
+def get_specific_data(page:int, category:str | None = None, keyword:str | None = None) -> AttractionDataResponse | ErrorResponse:
 	try:
 		result = page_date(page, category, keyword)
 		total_page = diff_page(page, category, keyword)[1]
