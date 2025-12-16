@@ -1,6 +1,13 @@
+.container {
+  max-width: 1920x;
+  margin: 0 auto;
+  padding: 0 16px;
+  overflow: visible;
+}
+
 .topbar {
-  margin: 20px 10px 20px 10px;
-  width: 100%;
+  margin: 20px auto;
+  width: 1200px;
 }
 
 .topbar__container--whole {
@@ -42,9 +49,7 @@
 
 .main__banner--image101 {
   width: 100%;
-  margin: 10px 0 10px 0;
-  -o-object-fit: fill;
-     object-fit: fill;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -53,7 +58,7 @@
 }
 
 .banner__inside {
-  width: 100%;
+  width: 1200px;
   margin-left: 20px;
   position: absolute;
   top: 50%;
@@ -78,9 +83,142 @@
 
 .filter {
   margin-top: 20px;
+  max-width: 460px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+}
+
+.filter__btn {
+  width: 100px;
+  height: 100%;
+  border: solid 1px #eeeeee;
+  background-color: #eeeeee;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.select {
+  position: relative;
+  padding: 2px 2px;
+  font-size: 14px;
+}
+
+.arrow {
+  display: inline-block;
+  margin-left: 6px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #333;
+}
+
+.filter__input {
+  width: 400px;
+  height: 100%;
+  border: solid 1px #ffffff;
+  background-color: #ffffff;
+}
+
+input::-moz-placeholder {
+  font-size: 16px;
+}
+
+input::placeholder {
+  font-size: 16px;
 }
 
 .search__btn {
-  width: 10px;
-  height: 10px;
+  width: 60px;
+  height: 100%;
+  border: solid 1px #448899;
+  background-color: #448899;
+  border-radius: 0 5px 5px 0;
+}
+
+.middle__bar--mrts {
+  width: 1200px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+}
+
+.middle__bar--mrts p {
+  color: white;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.attraction__content--whole {
+  width: 1200px;
+  margin: 50px auto;
+  overflow: visible;
+}
+
+.attraction__content--unit {
+  border: #e8e8e8 1px solid;
+  border-radius: 5px;
+}
+
+.attraction__content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  justify-items: center;
+}
+
+.imageShell {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+
+.aImage {
+  width: 100%;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+  border-radius: 5px 5px 0 0;
+}
+
+.attractionInfo {
+  width: 100%;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.attractionInfo p {
+  color: white;
+  font-weight: 600;
+}
+
+.attractionData {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+.attractionDataLeft,
+.attractionDataRight {
+  color: grey;
+  font-weight: 500;
 }/*# sourceMappingURL=index_style.css.map */

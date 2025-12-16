@@ -9,26 +9,41 @@
   </head>
   <body>
     <script src="/static/index.js" defer></script>
-    <div class="topbar topbar__container--whole">
-      <div class="topbar__left--title">
-        <p class="homepage__title">台北一日遊</p>
-      </div>
-      <div class="topbar__container--right">
-        <p class="topbar__right--booking topbar__title--font">預定行程</p>
-        <p class="topbar__right--login topbar__title--font">登入/註冊</p>
-      </div>
-    </div>
-    <div class="main__banner--image101">
-      <img src="/static/images/101banner.png" alt="圖片" class="image101" />
-      <div class="banner__inside">
-        <p class="banner__inside--header">輕鬆享受台北一日悠閒</p>
-        <p class="banner__inside--para">探索每個角落，體驗城市的深度旅遊行程</p>
-        <div class="filter">
-          <button class="filter_btn">全站分類</button>
-          <input type="text" class="filter__input" />
-          <button class="search__btn">搜尋</button>
+    <div class="container">
+      <div class="topbar topbar__container--whole">
+        <div class="topbar__left--title">
+          <p class="homepage__title">台北一日遊</p>
+        </div>
+        <div class="topbar__container--right">
+          <p class="topbar__right--booking topbar__title--font">預定行程</p>
+          <p class="topbar__right--login topbar__title--font">登入/註冊</p>
         </div>
       </div>
+      <div class="main__banner--image101">
+        <img src="/static/images/101banner.png" alt="圖片" class="image101" />
+        <div class="banner__inside">
+          <p class="banner__inside--header">輕鬆享受台北一日悠閒</p>
+          <p class="banner__inside--para">
+            探索每個角落，體驗城市的深度旅遊行程
+          </p>
+          <search class="filter">
+            <button class="filter__btn select">
+              全部分類<span class="arrow"></span></button
+            ><input
+              type="text"
+              class="filter__input"
+              placeholder="輸入景點名稱查詢"
+            /><button class="search__btn">搜尋</button>
+          </search>
+        </div>
+      </div>
+      <div class="middle__bar--mrts">
+        <p>捷運待作業</p>
+      </div>
+      <div class="attraction__content--whole">
+        <div class="attraction__content"></div>
+      </div>
+      <footer></footer>
     </div>
   </body>
 </html>
