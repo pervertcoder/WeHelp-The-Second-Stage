@@ -2,6 +2,23 @@
 
 const attractionContent = document.querySelector(".attraction__content");
 
+const lazyLoadObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        observer.unobserve(img);
+      }
+    });
+  },
+  {
+    root: null,
+    rootMargin: "100px",
+    threshold: 0,
+  }
+);
+
 const renderAttractions = function (data) {
   const fragment = document.createDocumentFragment();
 
@@ -23,6 +40,10 @@ const renderAttractions = function (data) {
     attractionDataRight.setAttribute("class", "attractionDataRight");
     attractionDataLeft.setAttribute("class", "attractionDataLeft");
 
+    attractionImage.src = "/static/images/placeholder.png";
+    attractionImage.dataset.src = data[i].image[0];
+    lazyLoadObserver.observe(attractionImage);
+
     attractionContent.appendChild(attractionContentUnit);
     attractionContentUnit.appendChild(imageShell);
     imageShell.appendChild(attractionImage);
@@ -32,7 +53,7 @@ const renderAttractions = function (data) {
     attractionData.appendChild(attractionDataLeft);
     attractionData.appendChild(attractionDataRight);
 
-    attractionImage.src = data[i].image[0];
+    // attractionImage.src = data[i].image[0];
     attractionInfoText.textContent = data[i].name;
     attractionDataLeft.textContent = data[i].mrt;
     attractionDataRight.textContent = data[i].category;
@@ -49,7 +70,7 @@ const getAttractionData = async function (page = 0) {
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
-  console.log(data);
+  // console.log(data);
 
   renderAttractions(data);
   return pageField;
