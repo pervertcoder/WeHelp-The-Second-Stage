@@ -163,19 +163,19 @@ input::placeholder {
   margin: 50px auto;
   overflow: visible;
   // justify-content: center;
-}
-
-.attraction__content--unit {
-  border: #e8e8e8 1px solid;
-  border-radius: 5px;
+  padding: 0;
 }
 
 .attraction__content {
   display: grid;
   grid-template-columns: repeat(auto-fit, 270px);
-  gap: 16px;
-  // justify-items: center;
+  gap: 30px;
   justify-content: center;
+}
+
+.attraction__content--unit {
+  border: #e8e8e8 1px solid;
+  border-radius: 5px;
 }
 
 .imageShell {
@@ -235,4 +235,14 @@ input::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.filter__category {
+  margin-top: 10px;
+  width: 300px;
+  height: 160px;
+  grid-template-columns: repeat(3, 100px);
+  background-color: white;
+  position: absolute;
+  display: none;
 }
