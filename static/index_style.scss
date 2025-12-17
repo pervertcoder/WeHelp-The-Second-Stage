@@ -162,6 +162,7 @@ input::placeholder {
   width: 1200px;
   margin: 50px auto;
   overflow: visible;
+  // justify-content: center;
 }
 
 .attraction__content--unit {
@@ -171,9 +172,10 @@ input::placeholder {
 
 .attraction__content {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, 270px);
   gap: 16px;
-  justify-items: center;
+  // justify-items: center;
+  justify-content: center;
 }
 
 .imageShell {
@@ -214,8 +216,6 @@ input::placeholder {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  // margin-bottom: 10px;
-  // border: #e8e8e8 1px solid;
   border-radius: 0 0 5px 5px;
 }
 
@@ -223,4 +223,16 @@ input::placeholder {
 .attractionDataRight {
   color: grey;
   font-weight: 500;
+}
+
+.footer__structure {
+  max-width: 1920px;
+  height: 104px;
+  background-color: #757575;
+}
+
+.footer__layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

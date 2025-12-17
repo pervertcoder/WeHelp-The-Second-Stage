@@ -2,14 +2,7 @@
 
 const attractionContent = document.querySelector(".attraction__content");
 
-const getAttractionData = async function () {
-  let url = "/api/attractions?page=0";
-  const req = await fetch(url);
-  const response = await req.json();
-  const data = response.data;
-  const pageField = response.nextPage;
-  console.log(data);
-
+const renderAttractions = function (data) {
   for (let i = 0; i < data.length; i++) {
     const attractionContentUnit = document.createElement("div");
     const imageShell = document.createElement("div");
@@ -44,4 +37,46 @@ const getAttractionData = async function () {
   }
 };
 
+const getAttractionData = async function (page = 0) {
+  let url = `/api/attractions?page=${page}`;
+  const req = await fetch(url);
+  const response = await req.json();
+  const data = response.data;
+  const pageField = response.nextPage;
+  console.log(data);
+
+  renderAttractions(data);
+  return pageField;
+};
+
 getAttractionData();
+
+const sentinel = document.querySelector("#scrollSentinel");
+let currentPage = 1;
+let isLoading = false;
+
+const loadNextPage = async function () {
+  if (isLoading) return;
+  isLoading = true;
+
+  const nextPage = await getAttractionData(currentPage);
+  currentPage = nextPage;
+
+  isLoading = false;
+};
+
+const observer = new IntersectionObserver(
+  async (entries) => {
+    const entry = entries[0];
+    if (entry.isIntersecting) {
+      loadNextPage();
+    }
+  },
+  {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1,
+  }
+);
+
+observer.observe(sentinel);
