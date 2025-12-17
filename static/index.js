@@ -59,8 +59,13 @@ const loadNextPage = async function () {
   if (isLoading) return;
   isLoading = true;
 
-  const nextPage = await getAttractionData(currentPage);
-  currentPage = nextPage;
+  let nextPage = await getAttractionData(currentPage);
+  if (nextPage !== null) {
+    currentPage = nextPage;
+  } else {
+    observer.unobserve(sentinel);
+    console.log("已經沒有更多資料");
+  }
 
   isLoading = false;
 };
@@ -80,3 +85,14 @@ const observer = new IntersectionObserver(
 );
 
 observer.observe(sentinel);
+
+const check = async function () {
+  if (sentinel.getBoundingClientRect().top < window.innerHeight) {
+    const nextPage = await getAttractionData(currentPage);
+    if (nextPage !== null) currentPage = nextPage;
+  }
+};
+
+(async () => {
+  await check();
+})();
