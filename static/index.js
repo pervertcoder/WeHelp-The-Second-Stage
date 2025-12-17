@@ -90,7 +90,10 @@ const observer = new IntersectionObserver(
 
 async function init() {
   await getAttractionData();
-  observer.observe(sentinel);
+
+  requestAnimationFrame(() => {
+    observer.observe(sentinel);
+  });
 }
 
 init();
