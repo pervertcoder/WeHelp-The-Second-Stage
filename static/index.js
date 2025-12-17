@@ -3,6 +3,8 @@
 const attractionContent = document.querySelector(".attraction__content");
 
 const renderAttractions = function (data) {
+  const fragment = document.createDocumentFragment();
+
   for (let i = 0; i < data.length; i++) {
     const attractionContentUnit = document.createElement("div");
     const imageShell = document.createElement("div");
@@ -34,7 +36,11 @@ const renderAttractions = function (data) {
     attractionInfoText.textContent = data[i].name;
     attractionDataLeft.textContent = data[i].mrt;
     attractionDataRight.textContent = data[i].category;
+
+    fragment.appendChild(attractionContentUnit);
   }
+
+  attractionContent.appendChild(fragment);
 };
 
 const getAttractionData = async function (page = 0) {
@@ -85,14 +91,3 @@ const observer = new IntersectionObserver(
 );
 
 observer.observe(sentinel);
-
-const check = async function () {
-  if (sentinel.getBoundingClientRect().top < window.innerHeight) {
-    const nextPage = await getAttractionData(currentPage);
-    if (nextPage !== null) currentPage = nextPage;
-  }
-};
-
-(async () => {
-  await check();
-})();
