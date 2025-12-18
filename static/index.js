@@ -48,16 +48,16 @@ const renderAttractions = function (data) {
 const getAttractionData = async function (
   url = "/api/attractions?page=",
   page = 0,
-  qur = null
+  qur = "",
+  keyword = ""
 ) {
-  let finalUrl = url + page;
+  let finalUrl = url + page + qur + keyword;
   const req = await fetch(finalUrl);
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
   // console.log(pageField);
 
-  // attractionContent.innerHTML = "";
   renderAttractions(data);
   return pageField;
 };
@@ -99,7 +99,12 @@ const observer = new IntersectionObserver(
 );
 
 // 畫面生成
-async function init(url = "/api/attractions?page=", page = 0, qur = null) {
+async function init(
+  url = "/api/attractions?page=",
+  page = 0,
+  qur = "",
+  keyword = ""
+) {
   attractionContent.innerHTML = "";
   await getAttractionData();
 
@@ -285,5 +290,11 @@ filterPanel.addEventListener("click", (e) => {
 
 // 篩選搜尋事件
 const search = document.getElementById("search");
+const searchWord = document.getElementById("filter__ip").value;
+const searchCategory = document.querySelector(".filter__btn").textContent;
+let urll = "/api/attractions?page=";
+let pagge = 0;
 
-// let f = search.value;
+search.addEventListener("click", () => {
+  init(urll, pagge, "&category=" + searchCategory, "&keyword=" + searchWord);
+});
