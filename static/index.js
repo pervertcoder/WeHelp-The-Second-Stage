@@ -2,8 +2,9 @@
 
 const attractionContent = document.querySelector(".attraction__content");
 
+// 生成DOM
 const renderAttractions = function (data) {
-  const fragment = document.createDocumentFragment();
+  // const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < data.length; i++) {
     const attractionContentUnit = document.createElement("div");
@@ -37,24 +38,31 @@ const renderAttractions = function (data) {
     attractionDataLeft.textContent = data[i].mrt;
     attractionDataRight.textContent = data[i].category;
 
-    fragment.appendChild(attractionContentUnit);
+    // fragment.appendChild(attractionContentUnit);
   }
 
-  attractionContent.appendChild(fragment);
+  // attractionContent.appendChild(fragment);
 };
 
-const getAttractionData = async function (page = 0) {
-  let url = `/api/attractions?page=${page}`;
-  const req = await fetch(url);
+// 抓取景點資料，並回傳下一頁的頁數
+const getAttractionData = async function (
+  url = "/api/attractions?page=",
+  page = 0,
+  qur = null
+) {
+  let finalUrl = url + page;
+  const req = await fetch(finalUrl);
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
-  // console.log(data);
+  // console.log(pageField);
 
+  // attractionContent.innerHTML = "";
   renderAttractions(data);
   return pageField;
 };
 
+// 讀取下一頁資料的函式
 const sentinel = document.querySelector("#scrollSentinel");
 let currentPage = 1;
 let isLoading = false;
@@ -63,7 +71,8 @@ const loadNextPage = async function () {
   if (isLoading) return;
   isLoading = true;
 
-  let nextPage = await getAttractionData(currentPage);
+  let url = "/api/attractions?page=";
+  let nextPage = await getAttractionData(url, currentPage);
   if (nextPage !== null) {
     currentPage = nextPage;
   } else {
@@ -74,6 +83,7 @@ const loadNextPage = async function () {
   isLoading = false;
 };
 
+// 建立intersection observer
 const observer = new IntersectionObserver(
   async (entries) => {
     const entry = entries[0];
@@ -88,7 +98,9 @@ const observer = new IntersectionObserver(
   }
 );
 
-async function init() {
+// 畫面生成
+async function init(url = "/api/attractions?page=", page = 0, qur = null) {
+  attractionContent.innerHTML = "";
   await getAttractionData();
 
   requestAnimationFrame(() => {
@@ -97,3 +109,181 @@ async function init() {
 }
 
 init();
+
+// 生成DOM
+const categoryAlign = function (data) {
+  for (let i = 0; i < data.length; i++) {
+    const filterRoom = document.createElement("div");
+    const filterBtn = document.createElement("button");
+
+    filterRoom.classList.add("filter__room");
+    filterBtn.classList.add("filter__button");
+    filterBtn.classList.add(`filter__button${i}`);
+    filterBtn.type = "button";
+
+    filterCategory.appendChild(filterRoom);
+    filterRoom.appendChild(filterBtn);
+
+    filterBtn.textContent = data[i];
+  }
+};
+
+// 獲取API資料
+const filterCategory = document.querySelector(".filter__category--structure");
+
+const getCategory = async function () {
+  let url = "/api/categories";
+  const req = await fetch(url);
+
+  const response = await req.json();
+  let categoryData = response.data;
+  console.log(categoryData);
+
+  let newCategoryData = ["全部分類"];
+  for (const i of categoryData) {
+    newCategoryData.push(i);
+  }
+  // console.log(newCategoryData);
+
+  categoryAlign(newCategoryData);
+};
+
+getCategory();
+
+// 顯示開關
+const allCategory = document.querySelector(".filter__btn");
+const filterPanel = document.querySelector(".filter__category--structure");
+
+let stat = false;
+const pointer = function () {
+  if (!stat) {
+    filterPanel.classList.remove("filter__state--off");
+    filterPanel.classList.add("filter__state--on");
+    stat = true;
+  }
+};
+allCategory.addEventListener("click", pointer);
+
+filterPanel.addEventListener("click", (e) => {
+  if (e.target.classList.contains("filter__button")) {
+    const text = e.target.textContent;
+
+    switch (text) {
+      case "全部分類":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "養生溫泉":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "藍色公路":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "歷史建築":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "藝文館所":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "單車遊蹤":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "戶外踏青":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "宗教信仰":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "其他":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+      case "親子共遊":
+        allCategory.textContent = text;
+        if (stat) {
+          filterPanel.classList.remove("filter__state--on");
+          filterPanel.classList.add("filter__state--off");
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          allCategory.append(arrow);
+          stat = false;
+        }
+        break;
+    }
+  }
+});
+
+// 篩選搜尋事件
+const search = document.getElementById("search");
+
+// let f = search.value;
