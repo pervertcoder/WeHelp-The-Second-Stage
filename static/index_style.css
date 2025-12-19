@@ -1,5 +1,5 @@
 .container {
-  width: 1920x;
+  max-width: 1920px;
   margin: 0 auto;
   padding: 0 16px;
   overflow: visible;
@@ -51,6 +51,8 @@
   width: 100%;
   margin-bottom: 50px;
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .image101 {
@@ -155,7 +157,7 @@ input::placeholder {
 }
 
 .middle__bar--mrts {
-  width: 80%;
+  width: 77%;
   height: 70px;
   display: flex;
   margin: 50px auto;
@@ -254,8 +256,10 @@ input::placeholder {
 
 .attraction__content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 270px);
+  max-width: 1200px;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  padding-left: 20px;
   justify-content: center;
 }
 
@@ -368,4 +372,69 @@ input::placeholder {
 
 .filter__button:hover {
   background-color: #e8e8e8;
+}
+
+@media (max-width: 360px) {
+  .container {
+    max-width: 360px;
+    padding: 0;
+  }
+  .topbar {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .topbar__left--title {
+    width: 50%;
+    margin-left: 0;
+  }
+  .topbar__container--right {
+    justify-content: space-between;
+    width: 50%;
+    margin: 0;
+  }
+  .homepage__title {
+    white-space: nowrap;
+  }
+  .topbar__right--booking {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .topbar__right--login {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .banner__inside {
+    width: 340px;
+    margin-left: 0;
+  }
+  .filter {
+    max-width: 340px;
+  }
+  .middle__bar--mrts {
+    width: 360px;
+    margin: 0;
+  }
+  .arrow_left {
+    margin: 0;
+    padding: 0;
+  }
+  .arrow_right {
+    margin: 0;
+    padding: 0;
+  }
+  .mrt__container {
+    width: auto;
+    margin-right: 2px;
+  }
+  .mrt__para {
+    padding: 13px 10px;
+  }
+  .attraction__content--whole {
+    width: 100%;
+    margin: 0;
+  }
+  .attraction__content {
+    grid-template-columns: repeat(1, 1fr);
+    padding-left: 0;
+  }
 }/*# sourceMappingURL=index_style.css.map */
