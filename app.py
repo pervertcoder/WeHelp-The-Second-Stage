@@ -76,23 +76,23 @@ def page_date(page:int, category:str | None = None, keyword:str | None = None) -
 	mycursor = conn.cursor()
 	mycursor.execute('use tourist_attraction')
 	sql = 'select * from attraction_info'
-	mrt = get_mrt_data()
-	name = get_data_name()
+	# mrt = get_mrt_data()
+	# name = get_data_name()
 	sql_filter = []
 	param = []
 	if category:
 		sql_filter.append('cate_data = %s')
 		param.append(category)
 	if keyword:
+		mrt = get_mrt_data()
+		name = get_data_name()
 		if keyword in mrt:
 			sql_filter.append('MRT_data = %s')
 			param.append(keyword)
-		for i in name:
-			if keyword in i:
-				sql_filter.append('name_data like %s')
-				keyword_name = f'%{keyword}%'
-				param.append(keyword_name)
-				break
+			# and name_data LIKE %s
+		else:
+			sql_filter.append('name_data LIKE %s')
+			param.append(f'%{keyword}%')
 	if sql_filter:
 		sql += ' where' + ' ' + ' and '.join(sql_filter)
 	sql += ' limit %s, 8'

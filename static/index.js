@@ -44,37 +44,57 @@ const renderAttractions = function (data) {
   // attractionContent.appendChild(fragment);
 };
 
+// 狀態
+const state = {
+  page: 0,
+  keyword: "",
+  category: "",
+};
+
+// 統一build URL
+function buildUrl() {
+  const params = new URLSearchParams();
+  params.set("page", state.page);
+
+  if (state.keyword !== "") {
+    params.set("keyword", state.keyword);
+  }
+
+  if (state.category !== "") {
+    params.set("category", state.category);
+  }
+  return `/api/attractions?${params.toString()}`;
+}
+
 // 抓取景點資料，並回傳下一頁的頁數
-const getAttractionData = async function (
-  url = "/api/attractions?page=",
-  page = 0,
-  qur = "",
-  keyword = ""
-) {
-  let finalUrl = url + page + qur + keyword;
-  const req = await fetch(finalUrl);
+const getAttractionData = async function () {
+  let url = buildUrl();
+  const req = await fetch(url);
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
-  // console.log(pageField);
+  console.log(url);
+  console.log(pageField);
 
   renderAttractions(data);
+  // state.page = pageField;
+
   return pageField;
 };
 
 // 讀取下一頁資料的函式
 const sentinel = document.querySelector("#scrollSentinel");
-let currentPage = 1;
 let isLoading = false;
 
 const loadNextPage = async function () {
   if (isLoading) return;
+  if (state.page === 0) return;
   isLoading = true;
 
-  let url = "/api/attractions?page=";
-  let nextPage = await getAttractionData(url, currentPage);
+  const nextPage = await getAttractionData();
+
   if (nextPage !== null) {
-    currentPage = nextPage;
+    state.page = nextPage;
   } else {
     observer.unobserve(sentinel);
     console.log("已經沒有更多資料");
@@ -99,18 +119,26 @@ const observer = new IntersectionObserver(
 );
 
 // 畫面生成
-async function init(
-  url = "/api/attractions?page=",
-  page = 0,
-  qur = "",
-  keyword = ""
-) {
-  attractionContent.innerHTML = "";
-  await getAttractionData();
+async function init({ keyword = "", category = "" } = {}) {
+  observer.unobserve(sentinel);
+  state.keyword = keyword;
+  state.category = category;
+  state.page = 0;
 
-  requestAnimationFrame(() => {
+  attractionContent.innerHTML = "";
+  isLoading = true;
+  let page = await getAttractionData();
+  isLoading = false;
+
+  if (page !== null) {
+    state.page = page;
+  }
+  // requestAnimationFrame(() => {
+  //   observer.observe(sentinel);
+  // });
+  setTimeout(() => {
     observer.observe(sentinel);
-  });
+  }, 100);
 }
 
 init();
@@ -142,7 +170,7 @@ const getCategory = async function () {
 
   const response = await req.json();
   let categoryData = response.data;
-  console.log(categoryData);
+  // console.log(categoryData);
 
   let newCategoryData = ["全部分類"];
   for (const i of categoryData) {
@@ -290,11 +318,13 @@ filterPanel.addEventListener("click", (e) => {
 
 // 篩選搜尋事件
 const search = document.getElementById("search");
-const searchWord = document.getElementById("filter__ip").value;
-const searchCategory = document.querySelector(".filter__btn").textContent;
-let urll = "/api/attractions?page=";
-let pagge = 0;
 
 search.addEventListener("click", () => {
-  init(urll, pagge, "&category=" + searchCategory, "&keyword=" + searchWord);
+  const searchCategory = document.querySelector(".filter__btn").textContent;
+  const searchWord = document.getElementById("filter__ip").value;
+
+  const cateparam = searchCategory !== "全部分類" ? searchCategory : undefined;
+  const keyparam = searchWord || undefined;
+
+  init({ category: cateparam, keyword: keyparam });
 });
