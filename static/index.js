@@ -143,6 +143,7 @@ async function init({ keyword = "", category = "" } = {}) {
 
 init();
 
+// 分類部分
 // 生成DOM
 const categoryAlign = function (data) {
   for (let i = 0; i < data.length; i++) {
@@ -316,11 +317,70 @@ filterPanel.addEventListener("click", (e) => {
   }
 });
 
+// 捷運部分
+const mrtBar = document.querySelector(".mrt__container--p");
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
+
+const getDataDom = function (data) {
+  for (let i = 0; i < data.length; i++) {
+    const mrtd = document.createElement("div");
+    const mrtp = document.createElement("button");
+
+    mrtd.classList.add("mrt__container");
+    mrtp.classList.add("mrt__para");
+
+    mrtBar.appendChild(mrtd);
+    mrtd.appendChild(mrtp);
+
+    mrtp.textContent = data[i];
+  }
+};
+const getMrtsData = async function () {
+  let url = "/api/mrts";
+  let req = await fetch(url);
+
+  let response = await req.json();
+  let data = response.data;
+  console.log(data);
+
+  getDataDom(data);
+  const oneItemWidth = document.querySelector(".mrt__para").offsetWidth + 12;
+  arrowLeft.addEventListener("click", () => {
+    mrtBar.scrollLeft -= oneItemWidth;
+  });
+  arrowRight.addEventListener("click", () => {
+    mrtBar.scrollLeft += oneItemWidth;
+  });
+
+  const items = document.querySelectorAll(".mrt__para");
+  items.forEach((item) => {
+    item.addEventListener("click", () => {
+      const searchCat = document
+        .querySelector(".filter__btn")
+        .textContent.trim();
+      if (searchCat !== "全部分類") {
+        init({
+          category: searchCat,
+          keyword: item.textContent.trim(),
+        });
+        console.log(searchCat, item.textContent.trim());
+      } else {
+        init({ category: undefined, keyword: item.textContent.trim() });
+        console.log(searchCat, item.textContent.trim());
+      }
+    });
+  });
+};
+getMrtsData();
+
 // 篩選搜尋事件
 const search = document.getElementById("search");
 
 search.addEventListener("click", () => {
-  const searchCategory = document.querySelector(".filter__btn").textContent;
+  const searchCategory = document
+    .querySelector(".filter__btn")
+    .textContent.trim();
   const searchWord = document.getElementById("filter__ip").value;
 
   const cateparam = searchCategory !== "全部分類" ? searchCategory : undefined;

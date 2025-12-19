@@ -1,7 +1,7 @@
 $search__bar: 100%;
 
 .container {
-  max-width: 1920x;
+  width: 1920x;
   margin: 0 auto;
   padding: 0 16px;
   overflow: visible;
@@ -9,7 +9,7 @@ $search__bar: 100%;
 
 .topbar {
   margin: 20px auto;
-  width: 1200px;
+  width: 80%;
 }
 
 .topbar__container--whole {
@@ -17,7 +17,7 @@ $search__bar: 100%;
 }
 
 .topbar__left--title {
-  margin-left: 10px;
+  margin-left: 20px;
   width: 70%;
 }
 
@@ -56,12 +56,11 @@ $search__bar: 100%;
 }
 
 .image101 {
-  width: 100%;
-  // height: 480px;
+  object-fit: cover;
 }
 
 .banner__inside {
-  width: 1200px;
+  width: 80%;
   margin-left: 20px;
   position: absolute;
   top: 50%;
@@ -103,6 +102,7 @@ $search__bar: 100%;
   align-items: center;
   justify-content: center;
   border-radius: 5px 0 0 5px;
+  cursor: pointer;
 }
 
 .select {
@@ -144,26 +144,106 @@ input::placeholder {
   border: solid 1px #448899;
   background-color: #448899;
   border-radius: 0 5px 5px 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.search__btn img {
+  width: 30px;
+  height: 30px;
 }
 
 .middle__bar--mrts {
-  width: 1200px;
-  background-color: black;
+  width: 80%;
+  height: 70px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 50px auto;
+  overflow: auto;
+  align-items: center;
 }
 
-.middle__bar--mrts p {
-  color: white;
-  font-size: 30px;
+.mrt__container--p {
+  width: 100%;
+  display: flex;
+  color: black;
+  font-size: 16px;
   margin-top: 10px;
   margin-bottom: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.mrt__container--p::-webkit-scrollbar {
+  display: none;
+}
+
+.mrt__container {
+  display: inline-block;
+  margin-right: 8px;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.mrt__para {
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  white-space: nowrap;
+  color: #666666;
+  cursor: pointer;
+  background-color: white;
+  border: white solid 1px;
+  font-weight: 700;
+}
+
+.mrt__para:hover {
+  color: #000000;
+}
+
+.arrow_right {
+  width: 32px;
+  height: 32px;
+  border: solid white 1px;
+  background-color: white;
+  margin: 10px;
+  cursor: pointer;
+  background-image: url(/static/images/arrowright.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.arrow_right:hover {
+  background-image: url(/static/images/hover\ arrow\ right.png);
+}
+
+.arrow_left {
+  width: 32px;
+  height: 32px;
+  border: solid white 1px;
+  background-color: white;
+  margin: 10px;
+  cursor: pointer;
+  background-image: url(/static/images/arrowleft.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.arrow_left img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.arrow_right img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
 }
 
 .attraction__content--whole {
-  width: 1200px;
+  width: 80%;
   margin: 50px auto;
   overflow: visible;
   // justify-content: center;
@@ -173,7 +253,7 @@ input::placeholder {
 .attraction__content {
   display: grid;
   grid-template-columns: repeat(auto-fit, 270px);
-  gap: 28px;
+  gap: 20px;
   justify-content: center;
 }
 
