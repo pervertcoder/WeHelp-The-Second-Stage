@@ -403,6 +403,15 @@ input::placeholder {
     white-space: nowrap;
     margin: 0 0 0 10px;
   }
+  .filter__btn {
+    width: 24%;
+  }
+  .filter__input {
+    width: 55%;
+  }
+  .search__button {
+    width: 20%;
+  }
 }
 @media (max-width: 420px) and (min-width: 361px) {
   .container {
@@ -437,6 +446,15 @@ input::placeholder {
   }
   .topbar__right--login {
     white-space: nowrap;
+  }
+  .filter__btn {
+    width: 30%;
+  }
+  .filter__input {
+    width: 40%;
+  }
+  .search__button {
+    width: 20%;
   }
 }
 @media (max-width: 360px) {
