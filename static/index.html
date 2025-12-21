@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style_reset.css" />
+    <link rel="stylesheet" href="/static/index_style.css" />
+    <title>台北一日遊</title>
+  </head>
+  <body>
+    <script src="/static/index.js" defer></script>
+    <div class="container">
+      <div class="topbar topbar__container--whole">
+        <div class="topbar__left--title">
+          <p class="homepage__title">台北一日遊</p>
+        </div>
+        <div class="topbar__container--right">
+          <p class="topbar__right--booking topbar__title--font">預定行程</p>
+          <p class="topbar__right--login topbar__title--font">登入/註冊</p>
+        </div>
+      </div>
+      <div class="main__banner--image101">
+        <img src="/static/images/101banner.png" alt="圖片" class="image101" />
+        <div class="banner__inside">
+          <p class="banner__inside--header">輕鬆享受台北一日悠閒</p>
+          <p class="banner__inside--para">
+            探索每個角落，體驗城市的深度旅遊行程
+          </p>
+          <search class="filter">
+            <button class="filter__btn select">
+              全部分類<span class="arrow"></span></button
+            ><input
+              type="text"
+              class="filter__input"
+              placeholder="輸入景點名稱查詢"
+              id="filter__ip"
+            /><button class="search__btn" id="search">
+              <img src="/static/images/search.png" alt="photo" />
+            </button>
+          </search>
+          <div
+            class="filter__category--structure filter__category--content filter__category--border filter__state--off"
+          ></div>
+        </div>
+      </div>
+      <div class="middle__bar--mrts">
+        <button class="arrow_left"></button>
+        <div class="mrt__container--p"></div>
+        <button class="arrow_right"></button>
+      </div>
+      <div class="attraction__content--whole">
+        <div class="attraction__content"></div>
+      </div>
+    </div>
+    <footer class="footer__layout footer__structure" id="scrollSentinel">
+      <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+  </body>
 </html>

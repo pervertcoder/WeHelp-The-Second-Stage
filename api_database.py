@@ -40,7 +40,7 @@ def get_db_connect():
     )
 	return mydb
 
-def insert_data(data:list):
+def insert_data(data:list) -> None:
 	test = []
 	for i in range(21):
 		test.append(i)
