@@ -10,7 +10,7 @@
 
 .topbar {
   margin: 20px auto;
-  width: 80%;
+  width: 64%;
 }
 
 .topbar__container--whole {
@@ -28,9 +28,13 @@
   color: #448899;
 }
 
+.clickE {
+  cursor: pointer;
+}
+
 .topbar__container--right {
   width: 30%;
-  margin-right: 30px;
+  // margin-right: 30px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -56,9 +60,106 @@
   cursor: pointer;
 }
 
+.seperateLine {
+  width: 1920px;
+  height: 10px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 50px 0 50px 0;
+  display: flex;
+}
+
+.imgCarousel {
+  width: 600px;
+  margin-right: 20px;
+}
+
+.projectSetting {
+  width: 600px;
+  margin-left: 20px;
+}
+
+.attractionName,
+.categoryMrt {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.attractionName {
+  font-size: 24px;
+  font-weight: 700;
+  color: #666666;
+}
+
+.categoryMrt {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+}
+
+.project {
+  width: 100%;
+  height: 302px;
+  padding: 15px;
+}
+
+.project__style {
+  background-color: #e8e8e8;
+}
+
+.project__inside--1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.project__inside--2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.description {
+  max-width: 1200px;
+  padding: 50px 0 70px 0;
+}
+
+.mainDes {
+  width: 100%;
+  // margin-bottom: 30px;
+}
+
+.addressTitle {
+  margin-top: 50px;
+}
+
+.address {
+  margin-top: 15px;
+}
+
+.transTitle {
+  margin-top: 50px;
+}
+
+.transport {
+  margin-top: 15px;
+}
+
+.font {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
 .footer__structure {
   max-width: 1920px;
   height: 104px;
+  margin-top: 70px;
   background-color: #757575;
 }
 

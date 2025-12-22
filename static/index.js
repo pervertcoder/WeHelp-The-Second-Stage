@@ -394,3 +394,9 @@ search.addEventListener("click", () => {
 
   init({ category: cateparam, keyword: keyparam });
 });
+
+const clickE = document.querySelector(".clickE");
+
+clickE.addEventListener("click", () => {
+  window.location.href = "/";
+});

@@ -27,6 +27,10 @@
   color: #448899;
 }
 
+.clickE {
+  cursor: pointer;
+}
+
 .topbar__container--right {
   width: 30%;
   margin-right: 30px;
