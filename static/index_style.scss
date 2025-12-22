@@ -52,18 +52,18 @@ $search__bar: 100%;
   margin-left: 15px;
 }
 
+.button_like {
+  border: solid white 1px;
+  background-color: white;
+  cursor: pointer;
+}
+
 .main__banner--image101 {
   width: 100vw;
   height: 480px;
   position: relative;
   display: flex;
   justify-content: center;
-}
-
-.button_like {
-  border: solid white 1px;
-  background-color: white;
-  cursor: pointer;
 }
 
 .image101 {
@@ -277,6 +277,7 @@ input::placeholder {
 .attraction__content--unit {
   border: #e8e8e8 1px solid;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .imageShell {
