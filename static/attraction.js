@@ -12,6 +12,18 @@ clickE.addEventListener("click", () => {
   window.location.href = "/";
 });
 
+const radioAll = document.getElementsByName("time");
+console.log(radioAll);
+const price = document.querySelector(".priceS");
+if (radioAll[0].checked) {
+  price.textContent = "新台幣2000元";
+}
+if (radioAll[1].checked) {
+  price.textContent = "新台幣2500元";
+} else {
+  price.textContent = "新台幣";
+}
+
 const getAttractionIdData = async function () {
   const hRef = window.location.href;
   const hRefAr = hRef.split("/");

@@ -106,6 +106,7 @@
 
 .project__style {
   background-color: #e8e8e8;
+  border-radius: 10px;
 }
 
 .project__inside--1 {
@@ -120,6 +121,44 @@
   font-weight: 400;
   color: #666666;
   margin-bottom: 20px;
+}
+
+.dateSelect {
+  margin-bottom: 20px;
+}
+
+#dateIp {
+  border: solid 0.5px rgba(232, 232, 232, 0.9098039216);
+  height: 35px;
+}
+
+.timeSelect {
+  margin-bottom: 30px;
+}
+
+.fontP {
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  display: inline-block;
+}
+
+.price,
+.priceS {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  margin-bottom: 15px;
+}
+
+.schBtn button {
+  border: solid 1px #e8e8e8;
+  border-radius: 5px;
+  background-color: #448899;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .description {
