@@ -79,7 +79,7 @@ const getAttractionData = async function () {
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
-  console.log(url);
+  // console.log(url);
   console.log(pageField);
 
   renderAttractions(data);
@@ -348,7 +348,7 @@ const getMrtsData = async function () {
 
   let response = await req.json();
   let data = response.data;
-  console.log(data);
+  // console.log(data);
 
   getDataDom(data);
   const oneItemWidth = document.querySelector(".mrt__para").offsetWidth + 12;
