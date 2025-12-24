@@ -32,6 +32,9 @@ for (let i = 0; i < radioAll.length; i++) {
 
 // API獲取+畫面渲染
 const imgSlider = document.querySelector(".imgSlider");
+const arrowRight = document.getElementById("nextBtn");
+const arrowLeft = document.getElementById("prevBtn");
+const indicators = document.getElementById("indicators");
 const getAttractionIdData = async function () {
   const hRef = window.location.href;
   const hRefAr = hRef.split("/");
@@ -50,31 +53,25 @@ const getAttractionIdData = async function () {
   address.textContent = attraction.address;
   transport.textContent = attraction.transport;
 
+  // 圖片
   const imgArr = attraction.image;
   imgSlider.src = imgArr[0];
-};
 
-getAttractionIdData();
+  // 指示器
+  const imgArrLen = imgArr.length;
+  for (let i = 0; i < imgArrLen; i++) {
+    const sonIndi = document.createElement("div");
+    sonIndi.setAttribute("class", "sonIndi");
+    sonIndi.dataset.id = i;
 
-// 圖片輪播函式
-const arrowRight = document.getElementById("nextBtn");
-const arrowLeft = document.getElementById("prevBtn");
+    indicators.appendChild(sonIndi);
+  }
 
-const getImgSlider = async function () {
-  const hRef = window.location.href;
-  const hRefAr = hRef.split("/");
-  const id = hRefAr[4];
+  const sons = document.querySelectorAll(".sonIndi");
+  const coloredSon0 = Array.from(sons).filter((son) => son.dataset.id === "0");
+  coloredSon0[0].classList.add("sonIndi__stat--on");
 
-  let url = `/api/attraction/${id}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  const attraction = data.data;
-  const imgArr = attraction.image;
-  return imgArr;
-};
-
-const sliderChanged = async function () {
-  const imgArr = await getImgSlider();
+  // 輪播
   let currentPos = 0;
   const lengthAr = imgArr.length;
 
@@ -82,6 +79,13 @@ const sliderChanged = async function () {
     if (currentPos < lengthAr - 1) {
       imgSlider.src = imgArr[currentPos + 1];
       currentPos += 1;
+      const coloredSons = Array.from(sons).filter(
+        (son) =>
+          son.dataset.id === String(currentPos) ||
+          son.dataset.id === String(currentPos - 1)
+      );
+      coloredSons[0].classList.remove("sonIndi__stat--on");
+      coloredSons[1].classList.add("sonIndi__stat--on");
     }
     if (currentPos === lengthAr - 1) {
       console.log("no more data");
@@ -92,10 +96,17 @@ const sliderChanged = async function () {
     if (currentPos !== 0) {
       imgSlider.src = imgArr[currentPos - 1];
       currentPos -= 1;
+      const coloredSons = Array.from(sons).filter(
+        (son) =>
+          son.dataset.id === String(currentPos) ||
+          son.dataset.id === String(currentPos + 1)
+      );
+      coloredSons[0].classList.add("sonIndi__stat--on");
+      coloredSons[1].classList.remove("sonIndi__stat--on");
     } else {
       console.log("no more image");
     }
   });
 };
 
-sliderChanged();
+getAttractionIdData();
