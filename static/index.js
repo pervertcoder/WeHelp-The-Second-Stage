@@ -17,6 +17,7 @@ const renderAttractions = function (data) {
     const attractionDataLeft = document.createElement("p");
 
     attractionContentUnit.setAttribute("class", "attraction__content--unit");
+    attractionContentUnit.setAttribute("data-id", `${data[i].id}`);
     imageShell.setAttribute("class", "imageShell");
     attractionImage.setAttribute("class", "aImage");
     attractionInfo.setAttribute("class", "attractionInfo");
@@ -37,6 +38,11 @@ const renderAttractions = function (data) {
     attractionInfoText.textContent = data[i].name;
     attractionDataLeft.textContent = data[i].mrt;
     attractionDataRight.textContent = data[i].category;
+
+    attractionContentUnit.addEventListener("click", () => {
+      const id = attractionContentUnit.dataset.id;
+      window.location.href = `/attraction/${id}`;
+    });
 
     // fragment.appendChild(attractionContentUnit);
   }
@@ -73,7 +79,7 @@ const getAttractionData = async function () {
   const response = await req.json();
   const data = response.data;
   const pageField = response.nextPage;
-  console.log(url);
+  // console.log(url);
   console.log(pageField);
 
   renderAttractions(data);
@@ -342,7 +348,7 @@ const getMrtsData = async function () {
 
   let response = await req.json();
   let data = response.data;
-  console.log(data);
+  // console.log(data);
 
   getDataDom(data);
   const oneItemWidth = document.querySelector(".mrt__para").offsetWidth + 12;
@@ -387,4 +393,10 @@ search.addEventListener("click", () => {
   const keyparam = searchWord || undefined;
 
   init({ category: cateparam, keyword: keyparam });
+});
+
+const clickE = document.querySelector(".clickE");
+
+clickE.addEventListener("click", () => {
+  window.location.href = "/";
 });

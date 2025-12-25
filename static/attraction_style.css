@@ -1,0 +1,511 @@
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 16px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topbar {
+  margin: 20px auto;
+  width: 1200px;
+}
+
+.topbar__container--whole {
+  display: flex;
+}
+
+.topbar__left--title {
+  width: 70%;
+}
+
+.homepage__title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #448899;
+}
+
+.clickE {
+  cursor: pointer;
+}
+
+.topbar__container--right {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.topbar__right--booking {
+  margin-right: 15px;
+}
+
+.topbar__title--font {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.topbar__right--login {
+  margin-left: 15px;
+}
+
+.button_like {
+  border: solid white 1px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.seperateLine {
+  width: 1920px;
+  height: 10px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.mainContent {
+  width: 1200px;
+  max-height: 400px;
+  margin: 50px 0 50px 0;
+  display: flex;
+}
+
+.imgCarousel {
+  width: 50%;
+  margin-right: 20px;
+  position: relative;
+}
+
+.imgSlider {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#prevBtn {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: 45%;
+  left: 1%;
+  z-index: 1;
+  background-image: url(/static/images/image_arrow_left.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  border: solid 0.5px transparent;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+#nextBtn {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: 45%;
+  right: 1%;
+  z-index: 1;
+  background-image: url(/static/images/image_arrow_right.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  border: solid 0.5px transparent;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+#indicators {
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  position: absolute;
+  background-color: white;
+  opacity: 0.5;
+  bottom: -1%;
+  display: flex;
+}
+
+.sonIndi {
+  flex: 1;
+}
+
+.sonIndi__stat--on {
+  background-color: black;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.projectSetting {
+  width: 50%;
+  margin-left: 20px;
+}
+
+.attractionName,
+.categoryMrt {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.attractionName {
+  font-size: 24px;
+  font-weight: 700;
+  color: #666666;
+}
+
+.categoryMrt {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+}
+
+.project {
+  width: 100%;
+  height: 75%;
+  padding: 15px;
+}
+
+.project__style {
+  background-color: #e8e8e8;
+  border-radius: 10px;
+}
+
+.project__inside--1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.project__inside--2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  margin-bottom: 20px;
+  line-height: 20px;
+}
+
+.dateSelect {
+  margin-bottom: 20px;
+}
+
+#dateIp {
+  border: solid 0.5px rgba(232, 232, 232, 0.9098039216);
+  height: 35px;
+}
+
+.timeSelect {
+  margin-bottom: 20px;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+  padding-left: 30px;
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: solid 1px #e8e8e8;
+  background-color: white;
+}
+
+input[type=radio]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 2.8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-color: #448899;
+  border-radius: 50%;
+}
+
+.fontP {
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  display: inline-block;
+}
+
+.timeFont {
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  display: inline;
+}
+
+.price,
+.priceS {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.schBtn button {
+  border: solid 1px #e8e8e8;
+  border-radius: 5px;
+  background-color: #448899;
+  color: white;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.description {
+  width: 1200px;
+  padding: 50px 0 70px 0;
+}
+
+.mainDes {
+  width: 100%;
+}
+
+.addressTitle {
+  margin-top: 50px;
+}
+
+.address {
+  margin-top: 15px;
+}
+
+.transTitle {
+  margin-top: 50px;
+}
+
+.transport {
+  margin-top: 15px;
+}
+
+.font {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: #666666;
+}
+
+.footer__structure {
+  max-width: 1920px;
+  height: 104px;
+  margin-top: 70px;
+  background-color: #757575;
+}
+
+.footer__layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1199px) {
+  .container {
+    max-width: 1199px;
+    padding: 0;
+  }
+  .topbar {
+    width: 80%;
+  }
+  .topbar__left--title {
+    width: 50%;
+    margin-left: 0;
+    padding-left: 10px;
+  }
+  .topbar__container--right {
+    width: 50%;
+    margin: 0;
+  }
+  .homepage__title {
+    white-space: nowrap;
+  }
+  .topbar__right--booking {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .topbar__right--login {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .mainContent {
+    width: 80%;
+  }
+  .description {
+    width: 80%;
+  }
+}
+@media (max-width: 1059px) {
+  .price,
+  .priceS {
+    margin-bottom: 8px;
+  }
+}
+@media (max-width: 760px) and (min-width: 421px) {
+  .container {
+    max-width: 704px;
+    padding: 0;
+  }
+  .deleteLine {
+    display: none;
+  }
+  .mainContent {
+    margin-top: 0;
+    flex-direction: column;
+    max-height: none;
+  }
+  .imgCarousel {
+    width: 100%;
+    height: 36%;
+    margin-right: 0;
+  }
+  .project {
+    height: 30%;
+  }
+  .projectSetting {
+    width: 100%;
+    margin-top: 50px;
+    margin-left: 0;
+  }
+}
+@media (max-width: 420px) and (min-width: 361px) {
+  .container {
+    max-width: 420px;
+    padding: 0;
+  }
+  .mainContent {
+    width: 100%;
+  }
+  .topbar {
+    width: 95%;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .topbar__left--title {
+    width: 50%;
+    margin-left: 0;
+    padding-left: 10px;
+  }
+  .topbar__container--right {
+    justify-content: space-evenly;
+    width: 50%;
+    margin: 0;
+  }
+  .homepage__title {
+    white-space: nowrap;
+  }
+  .topbar__right--booking {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .topbar__right--login {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .deleteLine {
+    display: none;
+  }
+  .mainContent {
+    margin-top: 0;
+    flex-direction: column;
+    max-height: none;
+  }
+  .imgCarousel {
+    width: 100%;
+    height: 316px;
+    margin-right: 0;
+  }
+  .project {
+    height: 30%;
+  }
+  .projectSetting {
+    width: 90%;
+    margin-top: 50px;
+    margin-left: 20px;
+  }
+  .project__inside--2 {
+    margin-bottom: 15px;
+  }
+  .dateSelect,
+  .timeSelect {
+    margin-bottom: 15px;
+  }
+}
+@media (max-width: 360px) {
+  .container {
+    max-width: 360px;
+    padding: 0;
+  }
+  .topbar {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .topbar__left--title {
+    width: 50%;
+    margin-left: 0;
+  }
+  .topbar__container--right {
+    justify-content: space-evenly;
+    width: 50%;
+    margin: 0;
+  }
+  .homepage__title {
+    white-space: nowrap;
+  }
+  .topbar__right--booking {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .topbar__right--login {
+    white-space: nowrap;
+    margin: 0;
+  }
+  .deleteLine {
+    display: none;
+  }
+  .mainContent {
+    width: 100%;
+    margin-top: 0;
+    flex-direction: column;
+    max-height: none;
+  }
+  .imgCarousel {
+    width: 100%;
+    height: 271px;
+    margin-right: 0;
+  }
+  .project {
+    height: 30%;
+  }
+  .projectSetting {
+    width: 90%;
+    margin-top: 50px;
+    margin-left: 20px;
+  }
+  .project__inside--2 {
+    margin-bottom: 15px;
+  }
+  .dateSelect,
+  .timeSelect {
+    margin-bottom: 15px;
+  }
+}/*# sourceMappingURL=attraction_style.css.map */

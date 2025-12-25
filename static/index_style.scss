@@ -12,11 +12,13 @@ $search__bar: 100%;
 
 .topbar {
   margin: 20px auto;
-  width: 80%;
+  // width: 63.5%;
+  width: 1200px;
 }
 
 .topbar__container--whole {
   display: flex;
+  // justify-content: space-between;
 }
 
 .topbar__left--title {
@@ -28,6 +30,10 @@ $search__bar: 100%;
   font-size: 30px;
   font-weight: 700;
   color: #448899;
+}
+
+.clickE {
+  cursor: pointer;
 }
 
 .topbar__container--right {
@@ -52,6 +58,12 @@ $search__bar: 100%;
   margin-left: 15px;
 }
 
+.button_like {
+  border: solid white 1px;
+  background-color: white;
+  cursor: pointer;
+}
+
 .main__banner--image101 {
   width: 100vw;
   height: 480px;
@@ -67,8 +79,9 @@ $search__bar: 100%;
 }
 
 .banner__inside {
-  width: 80%;
-  margin-left: 20px;
+  // width: 63.5%;
+  width: 1200px;
+  // margin-left: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -161,7 +174,8 @@ input::placeholder {
 }
 
 .middle__bar--mrts {
-  width: 77%;
+  // width: 63.5%;
+  width: 1200px;
   height: 70px;
   display: flex;
   margin: 50px auto;
@@ -260,7 +274,8 @@ input::placeholder {
 
 .attraction__content {
   display: grid;
-  max-width: 1500px;
+  // max-width: 1200px;
+  width: 1200px;
   // grid-template-columns: repeat(auto-fit, 270px);
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
@@ -271,6 +286,7 @@ input::placeholder {
 .attraction__content--unit {
   border: #e8e8e8 1px solid;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .imageShell {
@@ -323,6 +339,7 @@ input::placeholder {
 .footer__structure {
   max-width: 1920px;
   height: 104px;
+  margin-top: 50px;
   background-color: #757575;
 }
 
@@ -384,6 +401,9 @@ input::placeholder {
     max-width: 1199px;
     padding: 0;
   }
+  .topbar {
+    width: 80%;
+  }
   .attraction__content {
     grid-template-columns: repeat(2, 1fr);
     padding-left: 0;
@@ -402,14 +422,17 @@ input::placeholder {
   }
   .topbar__right--booking {
     white-space: nowrap;
-    margin: 0 10px 0 0;
+    margin: 0;
   }
   .topbar__right--login {
     white-space: nowrap;
-    margin: 0 0 0 10px;
+    margin: 0;
   }
   .main__banner--image101 {
     width: 100%;
+  }
+  .banner__inside {
+    width: 80%;
   }
   .filter__btn {
     width: 24%;
@@ -419,6 +442,17 @@ input::placeholder {
   }
   .search__button {
     width: 20%;
+  }
+  .middle__bar--mrts {
+    width: 90%;
+    margin: 20px auto;
+  }
+  .mrt__container {
+    width: auto;
+    margin-right: 2px;
+  }
+  .mrt__para {
+    padding: 13px 10px;
   }
 }
 @media (max-width: 420px) and (min-width: 361px) {
@@ -451,9 +485,27 @@ input::placeholder {
   }
   .topbar__right--booking {
     white-space: nowrap;
+    margin: 0;
   }
   .topbar__right--login {
     white-space: nowrap;
+    margin: 0;
+  }
+  .banner__inside {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .banner__inside--para {
+    margin-bottom: 20px;
+  }
+  .banner__inside--header,
+  .banner__inside--para,
+  .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .filter__btn {
     width: 30%;
@@ -463,6 +515,17 @@ input::placeholder {
   }
   .search__button {
     width: 20%;
+  }
+  .middle__bar--mrts {
+    width: 90%;
+    margin: 20px auto;
+  }
+  .mrt__container {
+    width: auto;
+    margin-right: 2px;
+  }
+  .mrt__para {
+    padding: 13px 10px;
   }
 }
 @media (max-width: 360px) {
