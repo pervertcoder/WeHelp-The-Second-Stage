@@ -486,6 +486,22 @@ input::placeholder {
     white-space: nowrap;
     margin: 0;
   }
+  .banner__inside {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .banner__inside--para {
+    margin-bottom: 20px;
+  }
+  .banner__inside--header,
+  .banner__inside--para,
+  .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .filter__btn {
     width: 30%;
   }
