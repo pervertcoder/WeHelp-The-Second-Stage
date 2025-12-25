@@ -18,10 +18,10 @@ const radioAll = document.getElementsByName("time");
 const price = document.querySelector(".priceS");
 const priceChanged = function () {
   if (radioAll[0].checked) {
-    price.textContent = "新台幣 2000元";
+    price.textContent = "新台幣 2000 元";
   }
   if (radioAll[1].checked) {
-    price.textContent = "新台幣 2500元";
+    price.textContent = "新台幣 2500 元";
   }
 };
 for (let i = 0; i < radioAll.length; i++) {

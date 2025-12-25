@@ -203,9 +203,40 @@
 }
 
 input[type=radio] {
-  accent-color: #448899;
-  transform: scale(1.5);
+  display: none;
+}
+
+label {
+  cursor: pointer;
+  padding-left: 30px;
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   border: solid 1px #e8e8e8;
+  background-color: white;
+}
+
+input[type=radio]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 2.8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-color: #448899;
+  border-radius: 50%;
 }
 
 .fontP {
@@ -328,7 +359,7 @@ input[type=radio] {
     margin-bottom: 8px;
   }
 }
-@media (max-width: 704px) and (min-width: 421px) {
+@media (max-width: 760px) and (min-width: 421px) {
   .container {
     max-width: 704px;
     padding: 0;
