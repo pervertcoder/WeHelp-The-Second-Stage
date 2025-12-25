@@ -10,7 +10,7 @@
 
 .topbar {
   margin: 20px auto;
-  width: 80%;
+  width: 1200px;
 }
 
 .topbar__container--whole {
@@ -67,7 +67,7 @@
 }
 
 .mainContent {
-  width: 80%;
+  width: 1200px;
   max-height: 400px;
   margin: 50px 0 50px 0;
   display: flex;
@@ -148,7 +148,8 @@
 .attractionName,
 .categoryMrt {
   width: 100%;
-  margin-bottom: 30px;
+  margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .attractionName {
@@ -190,7 +191,7 @@
 }
 
 .dateSelect {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 #dateIp {
@@ -199,7 +200,13 @@
 }
 
 .timeSelect {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+input[type="radio"] {
+  accent-color: #448899;
+  transform: scale(1.5);
+  border: solid 1px #e8e8e8;
 }
 
 .fontP {
@@ -222,7 +229,7 @@
   font-size: 16px;
   font-weight: 400;
   color: #666666;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .schBtn button {
@@ -230,12 +237,14 @@
   border-radius: 5px;
   background-color: #448899;
   color: white;
-  padding: 5px 10px;
+  padding: 5px 20px;
+  font-size: 16px;
+  font-weight: 300;
   cursor: pointer;
 }
 
 .description {
-  width: 80%;
+  width: 1200px;
   padding: 50px 0 70px 0;
 }
 
@@ -285,6 +294,9 @@
     max-width: 1199px;
     padding: 0;
   }
+  .topbar {
+    width: 80%;
+  }
   .topbar__left--title {
     width: 50%;
     margin-left: 0;
@@ -304,6 +316,12 @@
   .topbar__right--login {
     white-space: nowrap;
     margin: 0;
+  }
+  .mainContent {
+    width: 80%;
+  }
+  .description {
+    width: 80%;
   }
 }
 
@@ -329,6 +347,7 @@
   }
   .imgCarousel {
     width: 100%;
+    height: 36%;
     margin-right: 0;
   }
   .project {
@@ -345,6 +364,9 @@
   .container {
     max-width: 420px;
     padding: 0;
+  }
+  .mainContent {
+    width: 100%;
   }
   .topbar {
     width: 95%;
@@ -383,15 +405,23 @@
   }
   .imgCarousel {
     width: 100%;
+    height: 316px;
     margin-right: 0;
   }
   .project {
     height: 30%;
   }
   .projectSetting {
-    width: 100%;
+    width: 90%;
     margin-top: 50px;
-    margin-left: 0;
+    margin-left: 20px;
+  }
+  .project__inside--2 {
+    margin-bottom: 15px;
+  }
+  .dateSelect,
+  .timeSelect {
+    margin-bottom: 15px;
   }
 }
 
@@ -401,10 +431,8 @@
     padding: 0;
   }
   .topbar {
-    width: 95%;
+    width: 100%;
     justify-content: space-between;
-    margin-left: 10px;
-    margin-right: 10px;
   }
   .topbar__left--title {
     width: 50%;
@@ -430,21 +458,29 @@
     display: none;
   }
   .mainContent {
-    width: 90%;
+    width: 100%;
     margin-top: 0;
     flex-direction: column;
     max-height: none;
   }
   .imgCarousel {
     width: 100%;
+    height: 271px;
     margin-right: 0;
   }
   .project {
     height: 30%;
   }
   .projectSetting {
-    width: 100%;
+    width: 90%;
     margin-top: 50px;
-    margin-left: 0;
+    margin-left: 20px;
+  }
+  .project__inside--2 {
+    margin-bottom: 15px;
+  }
+  .dateSelect,
+  .timeSelect {
+    margin-bottom: 15px;
   }
 }

@@ -12,11 +12,13 @@ $search__bar: 100%;
 
 .topbar {
   margin: 20px auto;
-  width: 80%;
+  // width: 63.5%;
+  width: 1200px;
 }
 
 .topbar__container--whole {
   display: flex;
+  // justify-content: space-between;
 }
 
 .topbar__left--title {
@@ -77,8 +79,9 @@ $search__bar: 100%;
 }
 
 .banner__inside {
-  width: 80%;
-  margin-left: 20px;
+  // width: 63.5%;
+  width: 1200px;
+  // margin-left: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -171,7 +174,8 @@ input::placeholder {
 }
 
 .middle__bar--mrts {
-  width: 77%;
+  // width: 63.5%;
+  width: 1200px;
   height: 70px;
   display: flex;
   margin: 50px auto;
@@ -270,7 +274,8 @@ input::placeholder {
 
 .attraction__content {
   display: grid;
-  max-width: 1500px;
+  // max-width: 1200px;
+  width: 1200px;
   // grid-template-columns: repeat(auto-fit, 270px);
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
@@ -396,6 +401,9 @@ input::placeholder {
     max-width: 1199px;
     padding: 0;
   }
+  .topbar {
+    width: 80%;
+  }
   .attraction__content {
     grid-template-columns: repeat(2, 1fr);
     padding-left: 0;
@@ -422,6 +430,9 @@ input::placeholder {
   }
   .main__banner--image101 {
     width: 100%;
+  }
+  .banner__inside {
+    width: 80%;
   }
   .filter__btn {
     width: 24%;

@@ -10,7 +10,7 @@
 
 .topbar {
   margin: 20px auto;
-  width: 80%;
+  width: 1200px;
 }
 
 .topbar__container--whole {
@@ -75,8 +75,7 @@
 }
 
 .banner__inside {
-  width: 80%;
-  margin-left: 20px;
+  width: 1200px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -171,7 +170,7 @@ input::placeholder {
 }
 
 .middle__bar--mrts {
-  width: 77%;
+  width: 1200px;
   height: 70px;
   display: flex;
   margin: 50px auto;
@@ -272,7 +271,7 @@ input::placeholder {
 
 .attraction__content {
   display: grid;
-  max-width: 1500px;
+  width: 1200px;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   padding-left: 20px;
@@ -397,6 +396,9 @@ input::placeholder {
     max-width: 1199px;
     padding: 0;
   }
+  .topbar {
+    width: 80%;
+  }
   .attraction__content {
     grid-template-columns: repeat(2, 1fr);
     padding-left: 0;
@@ -423,6 +425,9 @@ input::placeholder {
   }
   .main__banner--image101 {
     width: 100%;
+  }
+  .banner__inside {
+    width: 80%;
   }
   .filter__btn {
     width: 24%;
