@@ -32,6 +32,12 @@ def get_db_connect():
     )
 	return mydb
 
+def insert_register_data():
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use web_attraction_mem')
+	pass
+
 def get_mrt_data() -> list:
 	conn = get_db_connect()
 	mycursor = conn.cursor()
@@ -150,8 +156,22 @@ class AttractionDataResponse(BaseModel):
 	nextPage: int | None
 	data: list
 
+class loginDataRequest(BaseModel):
+	name : str
+	email : str
+	password : str
 
 app=FastAPI()
+@app.post('/api/user')
+async def login (request:loginDataRequest):
+	username = request.name
+	useremail = request.email
+	userpass = request.password
+	# 存入資料庫
+	return {
+		'ok':True
+	}
+
 @app.get('/api/mrts', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 def get_mrts() -> DataResponse | ErrorResponse:
 	try:

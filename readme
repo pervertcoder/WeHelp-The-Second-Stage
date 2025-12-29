@@ -51,3 +51,13 @@ insert into attraction_info(
     address_data
 )values
     (),
+
+
+create database web_attraction_mem;
+
+create table web_attraction_memberinfo(
+    id int auto_increment primary key,
+    name varchar(100) not null,
+    email varchar(100) not null,
+    password varchar(100) not null
+);
