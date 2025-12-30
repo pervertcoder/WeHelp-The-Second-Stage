@@ -400,3 +400,78 @@ const clickE = document.querySelector(".clickE");
 clickE.addEventListener("click", () => {
   window.location.href = "/";
 });
+
+// 彈出式視窗
+
+const loginRigist = document.querySelector(".topbar__right--login");
+const closingBtn = document.querySelector(".cdia");
+const closingBtn2 = document.querySelector(".cdia2");
+const coverlayer = document.querySelector(".coverlayer");
+const popup1 = document.querySelector(".popup");
+const popup2 = document.querySelector(".popup2");
+const toLogin = document.getElementById("to_login");
+const toRegist = document.getElementById("to_regist");
+
+loginRigist.addEventListener("click", () => {
+  coverlayer.classList.remove("coverlayer--off");
+});
+
+closingBtn.addEventListener("click", () => {
+  coverlayer.classList.add("coverlayer--off");
+});
+
+closingBtn2.addEventListener("click", () => {
+  coverlayer.classList.add("coverlayer--off");
+});
+
+toLogin.addEventListener("click", () => {
+  popup1.classList.add("state--off");
+  popup2.classList.remove("state--off");
+});
+
+toRegist.addEventListener("click", () => {
+  popup2.classList.add("state--off");
+  popup1.classList.remove("state--off");
+});
+
+// 會員系統
+const error = document.querySelector(".eror");
+const registBtn = document.getElementById("regist");
+
+// 按鈕
+registBtn.addEventListener("click", async () => {
+  const inputName = document.getElementById("user");
+  const inputMail = document.getElementById("mail");
+  const inputPass = document.getElementById("pass");
+
+  // const nameV = inputName.value.trim();
+  // const mailV = inputMail.value.trim();
+  // const passV = inputPass.value.trim();
+
+  const payload = {
+    username: inputName.value.trim(),
+    useremail: inputMail.value.trim(),
+    userpass: inputPass.value.trim(),
+  };
+  // const payload = { nameV, mailV, passV };
+
+  if (
+    !inputName.value.trim() ||
+    !inputMail.value.trim() ||
+    !inputPass.value.trim()
+  ) {
+    error.textContent = "請輸入姓名、信箱和密碼";
+  } else {
+    const url = "/api/user";
+    let response = await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    console.log(data);
+    error.textContent = data.message;
+  }
+});

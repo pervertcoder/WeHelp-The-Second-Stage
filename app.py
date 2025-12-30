@@ -36,7 +36,8 @@ def insert_register_data(n:str, m:str, p:str):
 	conn = get_db_connect()
 	mycursor = conn.cursor()
 	mycursor.execute('use web_attraction_mem')
-	sql = 'insert into web_attraction_memberinfo (name, email, password) values (n, m, p)'
+	sql = 'insert into web_attraction_memberinfo (name, email, password) values (%s, %s, %s)'
+	mycursor.execute(sql, (n, m, p))
 
 	conn.commit()
 	conn.close()
@@ -51,6 +52,8 @@ def check_member(m:str) -> list:
 	result = [x for x in mycursor]
 	conn.close()
 	return result
+
+print(check_member('test@test.com'))
 
 def get_mrt_data() -> list:
 	conn = get_db_connect()
@@ -174,29 +177,35 @@ class stateResponse(BaseModel):
 	ok : bool
 
 class loginDataRequest(BaseModel):
-	name : str
-	email : str
-	password : str
+	username : str
+	useremail : str
+	userpass : str
 
 app=FastAPI()
 @app.post('/api/user', response_model=stateResponse, responses={200 : {'description' : '註冊成功'}, 400:{'model' : ErrorResponse, 'description' : '註冊失敗，重複的 Email 或其他原因'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 async def register (request:loginDataRequest):
 	try:
-		username = request.name
-		useremail = request.email
-		userpass = request.password
+		username = request.username
+		useremail = request.useremail
+		userpass = request.userpass
 		state = True
 		# 檢查有無重複
 		check_email = check_member(useremail)
+		print(check_email)
 		# 存入資料庫
-		if check_email:
+		if check_email != []:
 			state = False
-			raise HTTPException(status_code=400, detail='Email已存在')
+			# raise HTTPException(status_code=400, detail='Email已存在')
 		if state:
 			insert_register_data(username, useremail, userpass)
 			return {
 				'ok' : True
 			}
+		else:
+			return JSONResponse(status_code=400, content={
+				'error' : True,
+				'message' : 'email已存在'
+			})
 		
 	except Exception as e:
 		return JSONResponse(status_code=500, content={
