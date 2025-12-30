@@ -434,7 +434,7 @@ toRegist.addEventListener("click", () => {
   popup1.classList.remove("state--off");
 });
 
-// 會員系統
+// 會員系統註冊
 const error = document.querySelector(".eror");
 const registBtn = document.getElementById("regist");
 
@@ -444,16 +444,11 @@ registBtn.addEventListener("click", async () => {
   const inputMail = document.getElementById("mail");
   const inputPass = document.getElementById("pass");
 
-  // const nameV = inputName.value.trim();
-  // const mailV = inputMail.value.trim();
-  // const passV = inputPass.value.trim();
-
   const payload = {
     username: inputName.value.trim(),
     useremail: inputMail.value.trim(),
     userpass: inputPass.value.trim(),
   };
-  // const payload = { nameV, mailV, passV };
 
   if (
     !inputName.value.trim() ||
@@ -474,4 +469,26 @@ registBtn.addEventListener("click", async () => {
     console.log(data);
     error.textContent = data.message;
   }
+});
+
+// 登入程序
+const loginBtn = document.getElementById(".regist__btn2--structure");
+const error2 = document.querySelector(".otherWay2");
+
+loginBtn.addEventListener("click", async () => {
+  const mail2 = document.getElementById("mail2");
+  const pass2 = document.getElementById("pass2");
+  const payload = {};
+
+  const url = "";
+  const response = await fetch(url, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = await response.json();
+  console.log(data);
+  error2.textContent = data.message;
 });

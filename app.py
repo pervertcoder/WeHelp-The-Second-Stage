@@ -6,8 +6,21 @@ import os
 import mysql.connector
 from pydantic import BaseModel
 from typing import List
+import jwt
+from datetime import datetime, timedelta, timezone
+import time
 
 load_dotenv()
+load_dotenv('.env_jwt')
+SECRET_KEY = os.getenv('SECRET_KEY')
+ALGORITHM = 'HS256'
+
+def create_jwt(data:dict):
+	payload = data.copy()
+	expire_time = datetime.now(timezone.utc) + timedelta(hours=1)
+	payload["exp"] = int((expire_time).timestamp())
+	token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+	return token
 
 def split_maker(string:str) -> list:
 	target_lis = string.split('https')
@@ -53,7 +66,8 @@ def check_member(m:str) -> list:
 	conn.close()
 	return result
 
-print(check_member('test@test.com'))
+def check_rigisted_mem(m:str) -> list:
+	pass
 
 def get_mrt_data() -> list:
 	conn = get_db_connect()
@@ -176,14 +190,22 @@ class AttractionDataResponse(BaseModel):
 class stateResponse(BaseModel):
 	ok : bool
 
-class loginDataRequest(BaseModel):
+class registDataRequest(BaseModel):
 	username : str
 	useremail : str
 	userpass : str
 
+class loginDataRequest(BaseModel):
+	usermail :str
+	userpassword : str
+
+class loginDataResponse(BaseModel):
+	acess_token : str
+	token_type : str = 'bearer'
+
 app=FastAPI()
 @app.post('/api/user', response_model=stateResponse, responses={200 : {'description' : '註冊成功'}, 400:{'model' : ErrorResponse, 'description' : '註冊失敗，重複的 Email 或其他原因'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
-async def register (request:loginDataRequest):
+async def register (request:registDataRequest):
 	try:
 		username = request.username
 		useremail = request.useremail
@@ -207,6 +229,28 @@ async def register (request:loginDataRequest):
 				'message' : 'email已存在'
 			})
 		
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : str(e)
+		})
+
+@app.put('/api/user/auth')
+def member_data (request:loginDataRequest):
+	try:
+		usermail = request.usermail
+		userpassword = request.userpassword
+		check = check_member(request.usermail)
+		if check != []:
+			token = create_jwt({'id' : check[0][0], 'email' : check[0][2]})
+			return {
+				'acess_token' : token
+			}
+		else:
+			return JSONResponse(status_code=400, content={
+				'error' : True,
+				'message' : 'email尚未註冊'
+			})
 	except Exception as e:
 		return JSONResponse(status_code=500, content={
 			'error' : True,
