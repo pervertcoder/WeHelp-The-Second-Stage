@@ -22,6 +22,9 @@ def create_jwt(data:dict):
 	token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 	return token
 
+def decode_token(data:dict):
+	pass
+
 def split_maker(string:str) -> list:
 	target_lis = string.split('https')
 	target_lis[0] = ':jpg'
@@ -66,7 +69,7 @@ def check_member(m:str) -> list:
 	conn.close()
 	return result
 
-print(check_member('test@test.com'))
+# print(check_member('test@test.com'))
 
 def check_rigisted_mem(m:str) -> list:
 	pass
@@ -228,7 +231,7 @@ async def register (request:registDataRequest):
 		else:
 			return JSONResponse(status_code=400, content={
 				'error' : True,
-				'message' : 'email已存在'
+				'message' : 'Email已存在'
 			})
 		
 	except Exception as e:
@@ -252,12 +255,36 @@ async def member_data (request:loginDataRequest):
 		else:
 			return JSONResponse(status_code=400, content={
 				'error' : True,
-				'message' : 'email和密碼不正確'
+				'message' : 'Email或密碼不正確'
 			})
 	except Exception as e:
 		return JSONResponse(status_code=500, content={
 			'error' : True,
-			'message' : str(e)
+			'message' : '帳號或密碼發生錯誤'
+		})
+	
+@app.get('/api/user/auth')
+async def check_mem (authorization:str = Header(None)):
+	if authorization is None:
+		return JSONResponse(status_code=401, content={
+			'error' : True,
+			'message' : '沒有會員權限'
+		})
+	token = authorization.replace('Bearer ', '')
+	try:
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		return {
+			'data' : payload
+		}
+	except jwt.ExpiredSignatureError:
+		return JSONResponse(status_code=401, content={
+			'error': True,
+			'message': 'Token 已過期，請重新登入'
+		})
+	except jwt.InvalidTokenError:
+		return JSONResponse(status_code=401, content={
+			'error': True,
+			'message': 'Token 無效，請重新登入'
 		})
 
 @app.get('/api/mrts', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
@@ -285,6 +312,7 @@ def get_cate() -> DataResponse | ErrorResponse:
 			'error' : True,
 			'message' : str(e)
 		})
+	
 # 範例{400: {'model' : ErrorResponse, 'description' : '景點編號不正確'}}
 @app.get('/api/attraction/{attraction_id}', response_model=AttractionResponse, responses={200 : {'description' : '景點資料'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}, 400 : {'model' : ErrorResponse, 'description' : '景點編號不正確'}})
 def get_attraction(attraction_id:int) -> AttractionResponse | ErrorResponse:
@@ -343,7 +371,7 @@ def get_specific_data(page:int, category:str | None = None, keyword:str | None =
 				'lng' : rows[5],
 				'image' : new_file
 			}
-			)
+		)
 		
 		return {
 			'nextPage' : final_page,

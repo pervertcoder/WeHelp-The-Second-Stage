@@ -1,14 +1,29 @@
 "use strict";
 
-// 判斷token
+// 檢查token
 const token = localStorage.getItem("token");
-const loginButton = document.querySelector(".topbar__right--login");
-if (token !== null) {
-  loginButton.classList.add("logout");
-  loginButton.textContent = "登出";
-} else {
-  console.log("未登入");
-}
+const loginButton = document.querySelector(".loginButton");
+const checkState = async function () {
+  const req = await fetch("/api/user/auth", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await req.json();
+  // console.log(data);
+
+  if (data.data) {
+    loginButton.classList.add("logout");
+    loginButton.textContent = "登出系統";
+    console.log(data.data);
+  } else {
+    console.log("未登入");
+  }
+};
+
+checkState();
 
 const attractionContent = document.querySelector(".attraction__content");
 
@@ -477,20 +492,24 @@ registBtn.addEventListener("click", async () => {
     });
     const data = await response.json();
     console.log(data);
-    error.textContent = data.message;
+
+    if (data.ok) {
+      error.textContent = "註冊成功";
+    } else {
+      error.textContent = data.message;
+    }
   }
 });
 
 // 登入程序
 const loginBtn = document.getElementById("login");
-const error2 = document.querySelector(".otherWay2");
+const error2 = document.querySelector(".eror2");
 
 loginBtn.addEventListener("click", async () => {
-  console.log("press");
   const mail2 = document.getElementById("mail2").value.trim();
   const pass2 = document.getElementById("pass2").value.trim();
   const payload = { usermail: mail2, userpassword: pass2 };
-  console.log(payload);
+  // console.log(payload);
 
   const url = "/api/user/auth";
   const response = await fetch(url, {
@@ -505,6 +524,14 @@ loginBtn.addEventListener("click", async () => {
   error2.textContent = data.message;
   if (data.access_token) {
     localStorage.setItem("token", data.access_token);
-    window.location.href("/");
+    window.location.reload();
+  }
+});
+
+// 登出
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("logout")) {
+    localStorage.removeItem("token");
+    window.location.reload();
   }
 });
