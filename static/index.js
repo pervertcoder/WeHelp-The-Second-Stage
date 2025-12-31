@@ -16,9 +16,8 @@ const checkState = async function () {
   });
 
   const data = await req.json();
-  // console.log(data);
 
-  if (data.data) {
+  if (data.data.email) {
     loginButton.removeEventListener("click", removeClass);
     loginButton.classList.add("logout");
     loginButton.textContent = "登出系統";

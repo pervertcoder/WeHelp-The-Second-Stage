@@ -22,8 +22,6 @@ def create_jwt(data:dict):
 	token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 	return token
 
-def decode_token(data:dict):
-	pass
 
 def split_maker(string:str) -> list:
 	target_lis = string.split('https')
@@ -208,6 +206,16 @@ class loginDataResponse(BaseModel):
 	access_token : str
 	token_type : str = 'bearer'
 
+class userData(BaseModel):
+	id : int
+	name : str
+	email : str
+
+class loginDataCheck(BaseModel):
+	data:userData
+	
+
+
 app=FastAPI()
 @app.post('/api/user', response_model=stateResponse, responses={200 : {'description' : '註冊成功'}, 400:{'model' : ErrorResponse, 'description' : '註冊失敗，重複的 Email 或其他原因'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 async def register (request:registDataRequest):
@@ -246,7 +254,7 @@ async def member_data (request:loginDataRequest):
 		usermail = request.usermail
 		userpassword = request.userpassword
 		check = check_member(usermail)
-		print(check[0][0], check[0][2])
+		# print(check[0][0], check[0][2])
 		if check != [] and userpassword == check[0][3]:
 			token = create_jwt({'id' : check[0][0], 'email' : check[0][2]})
 			return {
@@ -263,7 +271,8 @@ async def member_data (request:loginDataRequest):
 			'message' : '帳號或密碼發生錯誤'
 		})
 	
-@app.get('/api/user/auth')
+@app.get('/api/user/auth', response_model=loginDataCheck)
+# response_model=loginDataCheck
 async def check_mem (authorization:str = Header(None)):
 	if authorization is None:
 		return JSONResponse(status_code=401, content={
@@ -273,8 +282,14 @@ async def check_mem (authorization:str = Header(None)):
 	token = authorization.replace('Bearer ', '')
 	try:
 		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		print(payload)
+		check_DB = check_member(payload['email'])
 		return {
-			'data' : payload
+			'data' : {
+				'id' : check_DB[0][0],
+				'name' : check_DB[0][1],
+				'email' : check_DB[0][2]
+			}
 		}
 	except jwt.ExpiredSignatureError:
 		return JSONResponse(status_code=401, content={
