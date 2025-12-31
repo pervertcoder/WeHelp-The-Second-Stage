@@ -33,7 +33,6 @@
 
 .topbar__container--right {
   width: 30%;
-  margin-right: 30px;
   display: flex;
   justify-content: flex-end;
   align-items: center;

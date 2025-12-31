@@ -1,5 +1,9 @@
 "use strict";
 
+const removeClass = function () {
+  coverlayer.classList.remove("coverlayer--off");
+};
+
 // 檢查token
 const token = localStorage.getItem("token");
 const loginButton = document.querySelector(".loginButton");
@@ -15,6 +19,7 @@ const checkState = async function () {
   // console.log(data);
 
   if (data.data) {
+    loginButton.removeEventListener("click", removeClass);
     loginButton.classList.add("logout");
     loginButton.textContent = "登出系統";
     console.log(data.data);
@@ -428,7 +433,7 @@ clickE.addEventListener("click", () => {
 
 // 彈出式視窗
 
-const loginRigist = document.querySelector(".topbar__right--login");
+const loginRigist = document.querySelector(".pop");
 const closingBtn = document.querySelector(".cdia");
 const closingBtn2 = document.querySelector(".cdia2");
 const coverlayer = document.querySelector(".coverlayer");
@@ -437,9 +442,7 @@ const popup2 = document.querySelector(".popup2");
 const toLogin = document.getElementById("to_login");
 const toRegist = document.getElementById("to_regist");
 
-loginRigist.addEventListener("click", () => {
-  coverlayer.classList.remove("coverlayer--off");
-});
+loginRigist.addEventListener("click", removeClass);
 
 closingBtn.addEventListener("click", () => {
   coverlayer.classList.add("coverlayer--off");
@@ -531,6 +534,7 @@ loginBtn.addEventListener("click", async () => {
 // 登出
 document.body.addEventListener("click", (e) => {
   if (e.target.classList.contains("logout")) {
+    e.stopImmediatePropagation();
     localStorage.removeItem("token");
     window.location.reload();
   }
