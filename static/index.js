@@ -1,5 +1,15 @@
 "use strict";
 
+// 判斷token
+const token = localStorage.getItem("token");
+const loginButton = document.querySelector(".topbar__right--login");
+if (token !== null) {
+  loginButton.classList.add("logout");
+  loginButton.textContent = "登出";
+} else {
+  console.log("未登入");
+}
+
 const attractionContent = document.querySelector(".attraction__content");
 
 // 生成DOM
@@ -472,15 +482,17 @@ registBtn.addEventListener("click", async () => {
 });
 
 // 登入程序
-const loginBtn = document.getElementById(".regist__btn2--structure");
+const loginBtn = document.getElementById("login");
 const error2 = document.querySelector(".otherWay2");
 
 loginBtn.addEventListener("click", async () => {
-  const mail2 = document.getElementById("mail2");
-  const pass2 = document.getElementById("pass2");
-  const payload = {};
+  console.log("press");
+  const mail2 = document.getElementById("mail2").value.trim();
+  const pass2 = document.getElementById("pass2").value.trim();
+  const payload = { usermail: mail2, userpassword: pass2 };
+  console.log(payload);
 
-  const url = "";
+  const url = "/api/user/auth";
   const response = await fetch(url, {
     method: "put",
     headers: {
@@ -491,4 +503,8 @@ loginBtn.addEventListener("click", async () => {
   const data = await response.json();
   console.log(data);
   error2.textContent = data.message;
+  if (data.access_token) {
+    localStorage.setItem("token", data.access_token);
+    window.location.href("/");
+  }
 });

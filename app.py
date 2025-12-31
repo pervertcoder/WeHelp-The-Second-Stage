@@ -66,6 +66,8 @@ def check_member(m:str) -> list:
 	conn.close()
 	return result
 
+print(check_member('test@test.com'))
+
 def check_rigisted_mem(m:str) -> list:
 	pass
 
@@ -200,7 +202,7 @@ class loginDataRequest(BaseModel):
 	userpassword : str
 
 class loginDataResponse(BaseModel):
-	acess_token : str
+	access_token : str
 	token_type : str = 'bearer'
 
 app=FastAPI()
@@ -236,20 +238,21 @@ async def register (request:registDataRequest):
 		})
 
 @app.put('/api/user/auth')
-def member_data (request:loginDataRequest):
+async def member_data (request:loginDataRequest):
 	try:
 		usermail = request.usermail
 		userpassword = request.userpassword
-		check = check_member(request.usermail)
-		if check != []:
+		check = check_member(usermail)
+		print(check[0][0], check[0][2])
+		if check != [] and userpassword == check[0][3]:
 			token = create_jwt({'id' : check[0][0], 'email' : check[0][2]})
 			return {
-				'acess_token' : token
+				'access_token' : token
 			}
 		else:
 			return JSONResponse(status_code=400, content={
 				'error' : True,
-				'message' : 'email尚未註冊'
+				'message' : 'email和密碼不正確'
 			})
 	except Exception as e:
 		return JSONResponse(status_code=500, content={
