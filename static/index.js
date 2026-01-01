@@ -17,7 +17,7 @@ const checkState = async function () {
 
   const data = await req.json();
 
-  if (data.data.email) {
+  if (data?.data?.email) {
     loginButton.removeEventListener("click", removeClass);
     loginButton.classList.add("logout");
     loginButton.textContent = "登出系統";
@@ -471,10 +471,11 @@ registBtn.addEventListener("click", async () => {
   const inputMail = document.getElementById("mail");
   const inputPass = document.getElementById("pass");
 
+  error.textContent = "";
   const payload = {
-    username: inputName.value.trim(),
-    useremail: inputMail.value.trim(),
-    userpass: inputPass.value.trim(),
+    name: inputName.value.trim(),
+    email: inputMail.value.trim(),
+    password: inputPass.value.trim(),
   };
 
   if (
@@ -510,7 +511,9 @@ const error2 = document.querySelector(".eror2");
 loginBtn.addEventListener("click", async () => {
   const mail2 = document.getElementById("mail2").value.trim();
   const pass2 = document.getElementById("pass2").value.trim();
-  const payload = { usermail: mail2, userpassword: pass2 };
+
+  error2.textContent = "";
+  const payload = { email: mail2, password: pass2 };
   // console.log(payload);
 
   const url = "/api/user/auth";
@@ -524,8 +527,8 @@ loginBtn.addEventListener("click", async () => {
   const data = await response.json();
   console.log(data);
   error2.textContent = data.message;
-  if (data.access_token) {
-    localStorage.setItem("token", data.access_token);
+  if (data.token) {
+    localStorage.setItem("token", data.token);
     window.location.reload();
   }
 });

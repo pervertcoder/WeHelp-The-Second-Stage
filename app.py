@@ -9,6 +9,8 @@ from typing import List
 import jwt
 from datetime import datetime, timedelta, timezone
 import time
+from fastapi import Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 load_dotenv()
 load_dotenv('.env_jwt')
@@ -194,17 +196,17 @@ class stateResponse(BaseModel):
 	ok : bool
 
 class registDataRequest(BaseModel):
-	username : str
-	useremail : str
-	userpass : str
+	name : str
+	email : str
+	password : str
 
 class loginDataRequest(BaseModel):
-	usermail :str
-	userpassword : str
+	email :str
+	password : str
 
 class loginDataResponse(BaseModel):
-	access_token : str
-	token_type : str = 'bearer'
+	token : str
+	# token_type : str = 'bearer'
 
 class userData(BaseModel):
 	id : int
@@ -215,24 +217,26 @@ class loginDataCheck(BaseModel):
 	data:userData
 	
 
-
 app=FastAPI()
+
+security = HTTPBearer()
+
 @app.post('/api/user', response_model=stateResponse, responses={200 : {'description' : '註冊成功'}, 400:{'model' : ErrorResponse, 'description' : '註冊失敗，重複的 Email 或其他原因'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 async def register (request:registDataRequest):
 	try:
-		username = request.username
-		useremail = request.useremail
-		userpass = request.userpass
+		name = request.name
+		email = request.email
+		password = request.password
 		state = True
 		# 檢查有無重複
-		check_email = check_member(useremail)
+		check_email = check_member(email)
 		print(check_email)
 		# 存入資料庫
 		if check_email != []:
 			state = False
 			# raise HTTPException(status_code=400, detail='Email已存在')
 		if state:
-			insert_register_data(username, useremail, userpass)
+			insert_register_data(name, email, password)
 			return {
 				'ok' : True
 			}
@@ -248,17 +252,17 @@ async def register (request:registDataRequest):
 			'message' : str(e)
 		})
 
-@app.put('/api/user/auth')
+@app.put('/api/user/auth', response_model=loginDataResponse, responses={400:{'model' : ErrorResponse, 'description' : 'Email或密碼不正確'}})
 async def member_data (request:loginDataRequest):
 	try:
-		usermail = request.usermail
-		userpassword = request.userpassword
-		check = check_member(usermail)
+		email = request.email
+		password = request.password
+		check = check_member(email)
 		# print(check[0][0], check[0][2])
-		if check != [] and userpassword == check[0][3]:
+		if check != [] and password == check[0][3]:
 			token = create_jwt({'id' : check[0][0], 'email' : check[0][2]})
 			return {
-				'access_token' : token
+				'token' : token
 			}
 		else:
 			return JSONResponse(status_code=400, content={
@@ -272,14 +276,13 @@ async def member_data (request:loginDataRequest):
 		})
 	
 @app.get('/api/user/auth', response_model=loginDataCheck)
-# response_model=loginDataCheck
-async def check_mem (authorization:str = Header(None)):
-	if authorization is None:
-		return JSONResponse(status_code=401, content={
-			'error' : True,
-			'message' : '沒有會員權限'
-		})
-	token = authorization.replace('Bearer ', '')
+async def check_mem (credentials: HTTPAuthorizationCredentials = Depends(security)):
+	# if authorization is None:
+	# 	return JSONResponse(status_code=401, content={
+	# 		'error' : True,
+	# 		'message' : '沒有會員權限'
+	# 	})
+	token = credentials.credentials.replace('Bearer ', '')
 	try:
 		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 		print(payload)
