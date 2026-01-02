@@ -1,5 +1,34 @@
 "use strict";
 
+const removeClass = function () {
+  coverlayer.classList.remove("coverlayer--off");
+};
+
+// 檢查token
+const token = localStorage.getItem("token");
+const loginButton = document.querySelector(".loginButton");
+const checkState = async function () {
+  const req = await fetch("/api/user/auth", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await req.json();
+
+  if (data?.data?.email) {
+    loginButton.removeEventListener("click", removeClass);
+    loginButton.classList.add("logout");
+    loginButton.textContent = "登出系統";
+    console.log(data.data);
+  } else {
+    console.log("未登入");
+  }
+};
+
+checkState();
+
 const attractionContent = document.querySelector(".attraction__content");
 
 // 生成DOM
@@ -399,4 +428,116 @@ const clickE = document.querySelector(".clickE");
 
 clickE.addEventListener("click", () => {
   window.location.href = "/";
+});
+
+// 彈出式視窗
+
+const loginRigist = document.querySelector(".pop");
+const closingBtn = document.querySelector(".cdia");
+const closingBtn2 = document.querySelector(".cdia2");
+const coverlayer = document.querySelector(".coverlayer");
+const popup1 = document.querySelector(".popup");
+const popup2 = document.querySelector(".popup2");
+const toLogin = document.getElementById("to_login");
+const toRegist = document.getElementById("to_regist");
+
+loginRigist.addEventListener("click", removeClass);
+
+closingBtn.addEventListener("click", () => {
+  coverlayer.classList.add("coverlayer--off");
+});
+
+closingBtn2.addEventListener("click", () => {
+  coverlayer.classList.add("coverlayer--off");
+});
+
+toLogin.addEventListener("click", () => {
+  popup1.classList.add("state--off");
+  popup2.classList.remove("state--off");
+});
+
+toRegist.addEventListener("click", () => {
+  popup2.classList.add("state--off");
+  popup1.classList.remove("state--off");
+});
+
+// 會員系統註冊
+const error = document.querySelector(".eror");
+const registBtn = document.getElementById("regist");
+
+// 按鈕
+registBtn.addEventListener("click", async () => {
+  const inputName = document.getElementById("user");
+  const inputMail = document.getElementById("mail");
+  const inputPass = document.getElementById("pass");
+
+  error.textContent = "";
+  const payload = {
+    name: inputName.value.trim(),
+    email: inputMail.value.trim(),
+    password: inputPass.value.trim(),
+  };
+
+  if (
+    !inputName.value.trim() ||
+    !inputMail.value.trim() ||
+    !inputPass.value.trim()
+  ) {
+    error.textContent = "請輸入姓名、信箱和密碼";
+  } else {
+    const url = "/api/user";
+    let response = await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (data.ok) {
+      error.textContent = "註冊成功";
+    } else {
+      error.textContent = data.message;
+    }
+  }
+});
+
+// 登入程序
+const loginBtn = document.getElementById("login");
+const error2 = document.querySelector(".eror2");
+
+loginBtn.addEventListener("click", async () => {
+  const mail2 = document.getElementById("mail2").value.trim();
+  const pass2 = document.getElementById("pass2").value.trim();
+
+  error2.textContent = "";
+  const payload = { email: mail2, password: pass2 };
+  // console.log(payload);
+
+  const url = "/api/user/auth";
+  const response = await fetch(url, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = await response.json();
+  console.log(data);
+  error2.textContent = data.message;
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    window.location.reload();
+  }
+});
+
+// 登出
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("logout")) {
+    e.stopImmediatePropagation();
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
 });

@@ -20,7 +20,7 @@
           >
             預定行程
           </button>
-          <button class="topbar__right--login topbar__title--font button_like">
+          <button class="loginButton pop topbar__right--login topbar__title--font button_like">
             登入/註冊
           </button>
         </div>
@@ -61,5 +61,49 @@
     <footer class="footer__layout footer__structure" id="scrollSentinel">
       <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
+    <div class="coverlayer coverlayer--off">
+      <div class="popup state--off">
+        <div class="top"></div>
+        <div class="topbbar">
+          <p class="title">註冊會員帳號</p>
+          <button type="button" class="cdia"></button>
+        </div>
+        <div class="input_m">
+          <input type="text" placeholder="輸入姓名" id="user" />
+          <input type="text" placeholder="輸入電子郵件" id="mail" />
+          <input type="password" placeholder="輸入密碼" id="pass" />
+          <button
+            type="button"
+            class="regist__btn2--structure regist__btn2--font" id="regist"
+          >
+            註冊新帳戶
+          </button>
+          <div class="otherWay">
+            <button type="button" id="to_login">已經有帳戶了？點此登入</button>
+            <p class="eror"></p>
+          </div>
+        </div>
+      </div>
+      <div class="popup2">
+        <div class="top2"></div>
+        <div class="topbbar2">
+          <p class="title2">登入會員帳號</p>
+          <button type="button" class="cdia2"></button>
+        </div>
+        <div class="input_m2">
+          <input type="text" placeholder="輸入電子郵件" id="mail2" />
+          <input type="password" placeholder="輸入密碼" id="pass2" />
+          <button
+            type="button"
+            class="regist__btn2--structure regist__btn2--font"
+            id="login"
+          >
+            登入帳戶
+          </button>
+          <div class="otherWay2">
+            <button type="button" id="to_regist">還沒有帳戶？點此註冊</button>
+            <p class="eror2"></p>
+      </div>
+    </div>
   </body>
 </html>

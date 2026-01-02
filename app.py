@@ -6,8 +6,24 @@ import os
 import mysql.connector
 from pydantic import BaseModel
 from typing import List
+import jwt
+from datetime import datetime, timedelta, timezone
+import time
+from fastapi import Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 load_dotenv()
+load_dotenv('.env_jwt')
+SECRET_KEY = os.getenv('SECRET_KEY')
+ALGORITHM = 'HS256'
+
+def create_jwt(data:dict):
+	payload = data.copy()
+	expire_time = datetime.now(timezone.utc) + timedelta(hours=1)
+	payload["exp"] = int((expire_time).timestamp())
+	token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+	return token
+
 
 def split_maker(string:str) -> list:
 	target_lis = string.split('https')
@@ -31,6 +47,32 @@ def get_db_connect():
         password = os.getenv('DB_PASSWORD')
     )
 	return mydb
+
+def insert_register_data(n:str, m:str, p:str):
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use web_attraction_mem')
+	sql = 'insert into web_attraction_memberinfo (name, email, password) values (%s, %s, %s)'
+	mycursor.execute(sql, (n, m, p))
+
+	conn.commit()
+	conn.close()
+	print('data inserted successfully')
+
+def check_member(m:str) -> list:
+	conn = get_db_connect()
+	mycursor = conn.cursor()
+	mycursor.execute('use web_attraction_mem')
+	sql = 'select * from web_attraction_memberinfo where email = %s'
+	mycursor.execute(sql, (m,))
+	result = [x for x in mycursor]
+	conn.close()
+	return result
+
+# print(check_member('test@test.com'))
+
+def check_rigisted_mem(m:str) -> list:
+	pass
 
 def get_mrt_data() -> list:
 	conn = get_db_connect()
@@ -150,8 +192,119 @@ class AttractionDataResponse(BaseModel):
 	nextPage: int | None
 	data: list
 
+class stateResponse(BaseModel):
+	ok : bool
+
+class registDataRequest(BaseModel):
+	name : str
+	email : str
+	password : str
+
+class loginDataRequest(BaseModel):
+	email :str
+	password : str
+
+class loginDataResponse(BaseModel):
+	token : str
+	# token_type : str = 'bearer'
+
+class userData(BaseModel):
+	id : int
+	name : str
+	email : str
+
+class loginDataCheck(BaseModel):
+	data:userData
+	
 
 app=FastAPI()
+
+security = HTTPBearer()
+
+@app.post('/api/user', response_model=stateResponse, responses={200 : {'description' : '註冊成功'}, 400:{'model' : ErrorResponse, 'description' : '註冊失敗，重複的 Email 或其他原因'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
+async def register (request:registDataRequest):
+	try:
+		name = request.name
+		email = request.email
+		password = request.password
+		state = True
+		# 檢查有無重複
+		check_email = check_member(email)
+		print(check_email)
+		# 存入資料庫
+		if check_email != []:
+			state = False
+			# raise HTTPException(status_code=400, detail='Email已存在')
+		if state:
+			insert_register_data(name, email, password)
+			return {
+				'ok' : True
+			}
+		else:
+			return JSONResponse(status_code=400, content={
+				'error' : True,
+				'message' : 'Email已存在'
+			})
+		
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : str(e)
+		})
+
+@app.put('/api/user/auth', response_model=loginDataResponse, responses={400:{'model' : ErrorResponse, 'description' : 'Email或密碼不正確'}})
+async def member_data (request:loginDataRequest):
+	try:
+		email = request.email
+		password = request.password
+		check = check_member(email)
+		# print(check[0][0], check[0][2])
+		if check != [] and password == check[0][3]:
+			token = create_jwt({'id' : check[0][0], 'email' : check[0][2]})
+			return {
+				'token' : token
+			}
+		else:
+			return JSONResponse(status_code=400, content={
+				'error' : True,
+				'message' : 'Email或密碼不正確'
+			})
+	except Exception as e:
+		return JSONResponse(status_code=500, content={
+			'error' : True,
+			'message' : '帳號或密碼發生錯誤'
+		})
+	
+@app.get('/api/user/auth', response_model=loginDataCheck)
+async def check_mem (credentials: HTTPAuthorizationCredentials = Depends(security)):
+	# if authorization is None:
+	# 	return JSONResponse(status_code=401, content={
+	# 		'error' : True,
+	# 		'message' : '沒有會員權限'
+	# 	})
+	token = credentials.credentials.replace('Bearer ', '')
+	try:
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		print(payload)
+		check_DB = check_member(payload['email'])
+		return {
+			'data' : {
+				'id' : check_DB[0][0],
+				'name' : check_DB[0][1],
+				'email' : check_DB[0][2]
+			}
+		}
+	except jwt.ExpiredSignatureError:
+		return JSONResponse(status_code=401, content={
+			'error': True,
+			'message': 'Token 已過期，請重新登入'
+		})
+	except jwt.InvalidTokenError:
+		return JSONResponse(status_code=401, content={
+			'error': True,
+			'message': 'Token 無效，請重新登入'
+		})
+
 @app.get('/api/mrts', response_model=DataResponse, responses={200 : {'description' : '正常運作'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}})
 def get_mrts() -> DataResponse | ErrorResponse:
 	try:
@@ -177,6 +330,7 @@ def get_cate() -> DataResponse | ErrorResponse:
 			'error' : True,
 			'message' : str(e)
 		})
+	
 # 範例{400: {'model' : ErrorResponse, 'description' : '景點編號不正確'}}
 @app.get('/api/attraction/{attraction_id}', response_model=AttractionResponse, responses={200 : {'description' : '景點資料'}, 500: {'model' : ErrorResponse, 'description' : '伺服器內部錯誤'}, 400 : {'model' : ErrorResponse, 'description' : '景點編號不正確'}})
 def get_attraction(attraction_id:int) -> AttractionResponse | ErrorResponse:
@@ -235,7 +389,7 @@ def get_specific_data(page:int, category:str | None = None, keyword:str | None =
 				'lng' : rows[5],
 				'image' : new_file
 			}
-			)
+		)
 		
 		return {
 			'nextPage' : final_page,
