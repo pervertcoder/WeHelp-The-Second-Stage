@@ -24,6 +24,8 @@ const checkState = async function () {
     console.log(data.data);
   } else {
     console.log("未登入");
+    localStorage.removeItem("token");
+    return;
   }
 };
 
